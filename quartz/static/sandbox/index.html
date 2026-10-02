@@ -381,7 +381,25 @@
     }
   
     /* Landscape Compact Mode (zcode patch) */
-
+    @media (max-width: 920px) and (orientation: landscape) {
+      .top-bar { flex-direction: row !important; align-items: center !important; top: 8px !important; left: 8px !important; right: 8px !important; gap: 8px !important; }
+      .top-left { flex-direction: row !important; align-items: center !important; gap: 8px !important; flex: 1 !important; min-width: 0 !important; }
+      .brand-card { padding: 4px 8px !important; gap: 6px !important; flex: 0 1 auto !important; }
+      .brand-badge-mygo, .brand-badge-mujica, .brand-subtitle { display: none !important; }
+      .brand-title { font-size: 11px !important; }
+      .time-indicator { font-size: 9px !important; max-width: 90px !important; }
+      .weather-indicator { font-size: 9px !important; padding: 2px 6px !important; }
+      .search-box { flex: 1 1 120px !important; width: auto !important; min-width: 90px !important; }
+      .search-input { font-size: 11px !important; padding: 4px 8px !important; }
+      .top-right { gap: 5px !important; overflow-x: auto !important; }
+      .btn { padding: 4px 8px !important; font-size: 10px !important; }
+      .filter-bar { top: 48px !important; left: 8px !important; right: 8px !important; }
+      .filter-pill { padding: 3px 9px !important; font-size: 10px !important; }
+      .interaction-hints { display: none !important; }
+      .roster-container { bottom: 12px !important; gap: 6px !important; }
+      .roster-avatar { width: 28px !important; height: 28px !important; }
+      .sandbox-diary-wrap { bottom: 12px !important; left: 12px !important; }
+    }
       @media (max-width: 768px) {
       .top-bar {
         flex-direction: column;
@@ -437,55 +455,13 @@
       .roster-avatar {
         width: 38px;
         height: 38px;
-      }      .btn {
-        white-space: nowrap;
-        flex: 0 0 auto;
-        width: auto;
-        height: auto;
-        padding: 6px 10px;
-        font-size: 11px;
-      }
-      .weather-indicator {
-        font-size: 9.5px;
-        white-space: nowrap;
-        max-width: 110px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        flex-shrink: 0;
-      }
-      .sandbox-diary-wrap {
-        bottom: 96px !important;
-        left: 12px !important;
-      }
-      .sandbox-diary-wrap a {
-        padding: 6px 12px;
-        font-size: 11px;
-      }
-
-    }
-        @media (max-width: 920px) and (orientation: landscape) {
-      .top-bar { flex-direction: row; align-items: center; top: 6px; left: 8px; right: 8px; gap: 8px; }
-      .top-left { flex-direction: row; align-items: center; gap: 8px; flex: 1; min-width: 0; }
-      .brand-card { padding: 4px 9px; gap: 7px; flex: 0 1 auto; }
-      .brand-card > div:first-child { font-size: 14px !important; }
-      .brand-title { font-size: 11px; white-space: nowrap; }
+      }      .btn { white-space: nowrap; flex: 0 0 auto; width: auto; height: auto; padding: 6px 10px; font-size: 11px; }
+      .weather-indicator { font-size: 9.5px; white-space: nowrap; max-width: 110px; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+      .sandbox-diary-wrap { bottom: 96px !important; left: 12px !important; }
+      .sandbox-diary-wrap a { padding: 6px 12px; font-size: 11px; }
       .brand-badge-mygo, .brand-badge-mujica { display: none !important; }
       .brand-subtitle { display: none !important; }
-      .time-indicator { font-size: 9.5px; max-width: 92px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
-      .weather-indicator { font-size: 9px; max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
-      .search-box { flex: 1 1 110px; width: auto; min-width: 84px; }
-      .search-input { font-size: 11px; padding: 4px 8px; }
-      .top-right { gap: 5px; overflow-x: auto; scrollbar-width: none; }
-      .top-right::-webkit-scrollbar { display: none; }
-      .btn { padding: 4px 8px; font-size: 10px; white-space: nowrap; flex: 0 0 auto; }
-      .filter-bar { top: 44px; left: 8px; right: 8px; flex-wrap: nowrap; }
-      .filter-pill { padding: 3px 9px; font-size: 10px; }
-      .interaction-hints { display: none; }
-      .roster-container { bottom: 6px; padding: 3px 7px; }
-      .roster-avatar { width: 28px; height: 28px; }
-      .sandbox-diary-wrap { bottom: 8px !important; left: 8px !important; }
-      .sandbox-diary-wrap a { padding: 4px 10px; font-size: 10px; }
-      .drawer { width: 60vw; max-width: 340px; }
+
     }
     </style>
 </head>
@@ -561,7 +537,7 @@
 
   <!-- Hints -->
   <div class="interaction-hints">
-    🌆 <strong>实时位置追踪</strong>：全员锚定在当前时间点（周五17:30 JST）所在位置。<br>
+    🌆 <strong>实时位置追踪</strong>：全员依据当前东京现实时间与昼夜作息动态漫游。<br>
     • 拖动头像可自由移动，松手弹簧<strong>吸附回当前位置</strong>；点击查看高清全身立绘与实时心境。
   </div>
 
@@ -1251,7 +1227,7 @@
         </div>
 
         <div class="info-card" style="border-left:3px solid #ffd166; background:rgba(255,209,102,0.06);">
-          <div style="font-size:11px; font-weight:700; color:#ffd166; margin-bottom:4px;">⏱️ 周五 17:30 JST 实时活动追踪</div>
+          <div style="font-size:11px; font-weight:700; color:#ffd166; margin-bottom:4px;">⏱️ 实时作息与活动追踪</div>
           <div style="font-size:12.5px; line-height:1.5; color:#fff;">${c.currentAction}</div>
         </div>
 
@@ -1812,6 +1788,18 @@
 
         ctx.fillStyle = '#ffffff';
         ctx.fillText(nameTag, c.x, c.y + radius + 9);
+
+        // Sleep Mode Indicator: Floating 💤
+        const isSleeping = c.currentAction && (c.currentAction.includes('安睡') || c.currentAction.includes('沉睡') || c.currentAction.includes('休眠'));
+        if (isSleeping) {
+          ctx.save();
+          const zFloat = Math.sin(frame * 0.05 + c.ox * 0.1) * 3;
+          ctx.font = '16px sans-serif';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('💤', c.x + radius - 6, c.y - radius - 2 + zFloat);
+          ctx.restore();
+        }
       });
     }
 
@@ -2034,17 +2022,17 @@
 
       // 4. 深夜全员安寝深睡 (23:30 - 06:30) - 彻底回归各自家中卧室！
       late_night_sleep: {
-        tomori: { ox: 690, oy: 310, loc: '高松家宅邸 · 二楼卧室', act: '裹在温暖的被窝中安睡，床头亮着柔和微弱的暖黄小夜灯，桌角整齐码放着今天收集的灰白小石头', quote: '「……呼……就算在很黑很黑的夜里……也一直有心跳的声音……」' },
-        anon: { ox: 620, oy: 260, loc: '千早家公寓 · 卧室床榻', act: '整个人陷在粉色蓬松羽绒被深处沉睡，床头柜手机插着快充线并开启免打扰夜间模式', quote: '「……呼噜……今天换的吉他新弦……明天一定会发出超棒的声音……」' },
-        soyo: { ox: 880, oy: 780, loc: '白金台高层豪华公寓 · 私人主卧', act: '宽幅遮光落地窗帘拉得严严实实，整洁优雅的大床上一片静谧安睡，手边留有空骨瓷茶杯', quote: '「……大家……都能平安睡个好觉……真是太好了……」' },
-        taki: { ox: 520, oy: 720, loc: '椎名家住宅 · 卧室床铺', act: '戴着隔音耳塞在单人床上深度沉睡，床头柜散落着修改工整的切分音四连音鼓谱草稿', quote: '「……呼……明天三点半前……进料……绝对不能迟到……」' },
-        rana: { ox: 650, oy: 380, loc: '宇川家日式老宅 · 榻榻米被褥', act: '像一只小猫一样把整个人蜷缩在软绵绵的棉被深处酣睡，嘴角带着微微的满足笑意', quote: '「……呼喵……抹茶芭菲……双倍红豆……大满足……」' },
-        sakiko: { ox: 750, oy: 360, loc: '目白平民单间公寓 · 简易单人床', act: '总谱笔记本与铅笔端正合拢置于桌角，关掉台灯静静沉睡，让疲惫的指尖得到彻底休整，为周六白天的钢琴家教储备充沛精力', quote: '「……休息吧……双手的指尖需要休息……明天的琴音不能有一丝颤抖……」' },
-        mutsumi: { ox: 330, oy: 780, loc: '若叶家大宅 · 主卧二楼卧室', act: '居室熄灯静卧安睡，窗外庭院里整齐排列的温室与花木在微凉的秋夜月光下无声呼吸', quote: '「……安静的根系……在黑夜里……也会慢慢向下伸展……」' },
-        umiri: { ox: 590, oy: 690, loc: '八幡家公寓 · 极简卧室', act: '闹钟分秒不差设定为早晨六点三十分，被褥铺得平整端正，双手置于身侧标准平躺深睡', quote: '「……距离晨起六点三十分……尚余五小时十六分……休眠中……」' },
-        nyamu: { ox: 1220, oy: 280, loc: '池袋公寓 · 卧房大床', act: '紧绷一整天的自媒体博主终于拔掉电脑电源与补光灯，脸上贴着晚安修护贴，倒在床上呼呼大睡', quote: '「……呼呼……明天醒来……播放量一定要冲上全站热搜……」' },
-        uika: { ox: 1210, oy: 720, loc: '都心艺能寓所 · 私密卧房', act: '拉好遮光帘，将明日电视台直播演出的服装熨烫悬挂妥当，彻底关灯进入完全静止的深度睡眠', quote: '「……愿今夜的星辰……能给沉睡的东京带去宁静安详的梦……」' },
-        mana: { ox: 1260, oy: 750, loc: 'sumimi 宿舍居室 · 卧室床榻', act: '戴着温热蒸汽眼罩平躺在床上沉睡，耳边循环播放着舒缓的无损白噪音助眠音频', quote: '「……呼……初华酱晚安……明天也要元气满满地跳舞……」' }
+        tomori: { ox: 520, oy: 550, loc: '高松家宅邸 · 二楼卧室', act: '裹在温暖的被窝中安睡，床头亮着柔和微弱的暖黄小夜灯，桌角整齐码放着今天收集的灰白小石头', quote: '「……呼……就算在很黑很黑的夜里……也一直有心跳的声音……」' },
+        anon: { ox: 480, oy: 150, loc: '千早家公寓 · 卧室床榻', act: '整个人陷在粉色蓬松羽绒被深处沉睡，床头柜手机插着快充线并开启免打扰夜间模式', quote: '「……呼噜……今天换的吉他新弦……明天一定会发出超棒的声音……」' },
+        soyo: { ox: 980, oy: 760, loc: '白金台高层豪华公寓 · 私人主卧', act: '宽幅遮光落地窗帘拉得严严实实，整洁优雅的大床上一片静谧安睡，手边留有空骨瓷茶杯', quote: '「……大家……都能平安睡个好觉……真是太好了……」' },
+        taki: { ox: 380, oy: 630, loc: '椎名家住宅 · 卧室床铺', act: '戴着隔音耳塞在单人床上深度沉睡，床头柜散落着修改工整的切分音四连音鼓谱草稿', quote: '「……呼……明天三点半前……进料……绝对不能迟到……」' },
+        rana: { ox: 290, oy: 360, loc: '宇川家日式老宅 · 榻榻米被褥', act: '像一只小猫一样把整个人蜷缩在软绵绵的棉被深处酣睡，嘴角带着微微的满足笑意', quote: '「……呼喵……抹茶芭菲……双倍红豆……大满足……」' },
+        sakiko: { ox: 820, oy: 440, loc: '目白平民单间公寓 · 简易单人床', act: '总谱笔记本与铅笔端正合拢置于桌角，关掉台灯静静沉睡，让疲惫的指尖得到彻底休整，为周六白天的钢琴家教储备充沛精力', quote: '「……休息吧……双手的指尖需要休息……明天的琴音不能有一丝颤抖……」' },
+        mutsumi: { ox: 250, oy: 730, loc: '若叶家大宅 · 主卧二楼卧室', act: '居室熄灯静卧安睡，窗外庭院里整齐排列的温室与花木在微凉的秋夜月光下无声呼吸', quote: '「……安静的根系……在黑夜里……也会慢慢向下伸展……」' },
+        umiri: { ox: 640, oy: 610, loc: '八幡家公寓 · 极简卧室', act: '闹钟分秒不差设定为早晨六点三十分，被褥铺得平整端正，双手置于身侧标准平躺深睡', quote: '「……距离晨起六点三十分……尚余五小时十六分……休眠中……」' },
+        nyamu: { ox: 1220, oy: 180, loc: '池袋公寓 · 卧房大床', act: '紧绷一整天的自媒体博主终于拔掉电脑电源与补光灯，脸上贴着晚安修护贴，倒在床上呼呼大睡', quote: '「……呼呼……明天醒来……播放量一定要冲上全站热搜……」' },
+        uika: { ox: 1140, oy: 680, loc: '都心艺能寓所 · 私密卧房', act: '拉好遮光帘，将明日电视台直播演出的服装熨烫悬挂妥当，彻底关灯进入完全静止的深度睡眠', quote: '「……愿今夜的星辰……能给沉睡的东京带去宁静安详的梦……」' },
+        mana: { ox: 1280, oy: 700, loc: 'sumimi 宿舍居室 · 卧室床榻', act: '戴着温热蒸汽眼罩平躺在床上沉睡，耳边循环播放着舒缓的无损白噪音助眠音频', quote: '「……呼……初华酱晚安……明天也要元气满满地跳舞……」' }
       },
 
       // 5. 周末与法定节假日白天 (10:00 - 18:00) - 祥子生计多元拓展版！
@@ -2489,7 +2477,7 @@
   </script>
 
   <!-- Floating Diary Navigation Button -->
-  <div style="position:fixed; bottom:24px; right:80px; z-index:9999;">
+  <div class="sandbox-diary-wrap" style="position:fixed; bottom:24px; left:24px; z-index:9999;">
     <a id="sandbox-diary-btn" href="../03-乐团共享日记/乐团共享日记本" target="_top"
        style="display:inline-flex; align-items:center; gap:8px; padding:9px 18px; border-radius:10px; font-size:13px; font-weight:600;
               text-decoration:none; color:rgba(255,255,255,0.92);

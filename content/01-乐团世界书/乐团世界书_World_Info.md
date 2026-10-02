@@ -107,7 +107,7 @@ aliases:
    - 一键安装包：[`乐团世界书_Quartz维基站全量源码与内容包_v2.1.zip`](https://drive.google.com/file/d/12hbTumUEQux0ICL0Awht_KhBU-WOXawT/view?usp=drivesdk)（v2.1 终极稳健版：沙盘目录索引免404、双链防冲刷双保险、Actions 权限完备）  
    - 技术栈选型：Quartz (v4) \+ GitHub Actions \+ Cloudflare Pages / GitHub Pages  
    - 定位：将世界书、编年史、日记本及全员记忆档案编译为所有人可直接阅读的双向链接公开 Web 终端，支持局部关系图谱、词条悬停预览与沙盘无缝嵌入，实现 0 成本、全球 CDN 加速与全自动 CI/CD 持续交付。  
-9. **权威源与双链流动准则**：确立 Google Drive 云端文档为唯一全局权威源（Single Source of Truth），正文中的 \`[[角色名]]\` 与 \`[[地标]]\` 字面双链将在导出时自动继承并编织入 Quartz 关系图谱，实现云端编辑与公开图谱的永久强一致性。
+9. **权威源与双链流动准则**：确立 Google Drive 云端文档为唯一全局权威源（Single Source of Truth），正文中的 \`『角色名』\` 与 \`『地标』\` 字面双链将在导出时自动继承并编织入 Quartz 关系图谱，实现云端编辑与公开图谱的永久强一致性。
 
 ---
 

@@ -40,6 +40,14 @@ DOCS_MAP = {
 ESCAPED_WIKILINK = re.compile(r"\\\[\\\[([^\n]+?)\\\]\\\]")
 
 
+# 公约示例占位符：云端文档里作为示例书写的字面 [[...]] 经转义还原后会
+# 变成真实的双链，在图谱中生成幽灵节点，这里做定点中性化。
+GHOST_EXAMPLES = {
+    "[[角色名]]": "『角色名』",
+    "[[地标]]": "『地标』",
+}
+
+
 def unescape_wikilinks(text: str) -> str:
     """把导出中的 \\[\\[...\\]\\] 还原为字面 [[...]]，并去掉链接目标内的转义符。"""
     return ESCAPED_WIKILINK.sub(lambda m: "[[" + m.group(1).replace("\\", "") + "]]", text)
@@ -54,6 +62,8 @@ def sync_doc(doc_id: str, target_path: str) -> bool:
                 raise RuntimeError(f"HTTP {resp.status}")
             content = resp.read().decode("utf-8-sig", errors="replace").replace("\ufeff", "")
             content = unescape_wikilinks(content)
+            for ghost, neutral in GHOST_EXAMPLES.items():
+                content = content.replace(ghost, neutral)
 
             # frontmatter（title/tags/aliases 等）只在仓库侧维护，同步时原样保留
             frontmatter = ""
