@@ -23,24 +23,33 @@
 
     var style = document.createElement('style')
     style.textContent =
-      '#live-update-capsule{position:fixed;right:20px;bottom:22px;z-index:2147483000;' +
-      'display:flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;' +
-      'background:rgba(15,17,26,.78);border:1px solid rgba(167,139,250,.45);' +
-      'backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);' +
-      'color:#f3f0ff;font-size:.88rem;letter-spacing:.02em;cursor:pointer;user-select:none;' +
-      'box-shadow:0 6px 24px rgba(0,0,0,.45),0 0 14px rgba(167,139,250,.25);' +
-      'opacity:0;transform:translateY(12px);transition:opacity .35s ease,transform .35s ease}' +
-      '#live-update-capsule.show{opacity:1;transform:translateY(0)}' +
-      '#live-update-capsule:hover{border-color:rgba(245,208,97,.75);' +
-      'box-shadow:0 6px 26px rgba(0,0,0,.5),0 0 18px rgba(245,208,97,.35)}' +
-      '#live-update-capsule .lv-star{color:#f5d061}'
+      '@keyframes lv-pulse{0%,100%{box-shadow:0 6px 26px rgba(0,0,0,.5),0 0 12px rgba(167,139,250,.35)}' +
+      '50%{box-shadow:0 8px 34px rgba(0,0,0,.6),0 0 30px rgba(167,139,250,.75),0 0 60px rgba(245,208,97,.30)}}' +
+      '@keyframes lv-shimmer{0%{background-position:-160px 0}100%{background-position:200px 0}}' +
+      '@keyframes lv-bounce{0%{opacity:0;transform:translateY(24px) scale(.85)}' +
+      '60%{opacity:1;transform:translateY(-4px) scale(1.05)}100%{opacity:1;transform:translateY(0) scale(1)}}' +
+      '#live-update-capsule{position:fixed;right:22px;bottom:26px;z-index:2147483000;' +
+      'display:flex;align-items:center;gap:10px;padding:15px 24px;border-radius:999px;' +
+      'background:linear-gradient(135deg,rgba(24,20,48,.92),rgba(15,17,26,.88));' +
+      'border:1.5px solid rgba(245,208,97,.65);' +
+      'backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);' +
+      'color:#ffffff;font-size:1.02rem;font-weight:600;letter-spacing:.03em;' +
+      'cursor:pointer;user-select:none;' +
+      'animation:lv-pulse 2.2s ease-in-out infinite,lv-bounce .55s cubic-bezier(.34,1.56,.64,1) both}' +
+      '#live-update-capsule:hover{transform:scale(1.05);border-color:#f5d061}' +
+      '#live-update-capsule .lv-star{font-size:1.3rem;filter:drop-shadow(0 0 6px rgba(245,208,97,.8));' +
+      'animation:lv-pulse 1.6s ease-in-out infinite}' +
+      '#live-update-capsule .lv-text{background:linear-gradient(100deg,#ffffff 35%,#f5d061 50%,#ffffff 65%);' +
+      'background-size:200px 100%;-webkit-background-clip:text;background-clip:text;' +
+      '-webkit-text-fill-color:transparent;animation:lv-shimmer 2.4s linear infinite}' +
+      '#live-update-capsule .lv-arrow{font-size:1.1rem;color:#a78bfa;animation:lv-pulse 1.6s ease-in-out infinite}'
     document.head.appendChild(style)
 
     var capsule = document.createElement('div')
     capsule.id = 'live-update-capsule'
     capsule.setAttribute('role', 'button')
     capsule.innerHTML =
-      '<span class="lv-star">✨</span><span>乐团世界线已更新，点击无感刷新</span>'
+      '<span class="lv-star">✨</span><span class="lv-text">乐团世界线已更新 · 点击无感刷新</span><span class="lv-arrow">⟳</span>'
     capsule.addEventListener('click', function () {
       // 缓存穿透：清掉本站 Cache Storage 后整页重载
       if (window.caches && caches.keys) {
