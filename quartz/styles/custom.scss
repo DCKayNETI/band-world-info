@@ -1,3 +1,46 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+// 首页 = 纯沙盘：整页固定定位覆盖层盖住全部 wiki 外框（侧边栏/页头/页脚），
+// 不逐个隐藏组件，避免依赖 Quartz 内部 DOM 结构。
+body:has(.sandbox-home) {
+  overflow: hidden;
+
+  .sandbox-home {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: #0b0c10;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+  }
+
+  .sandbox-wiki-entry {
+    position: fixed;
+    top: 14px;
+    right: 16px;
+    z-index: 1000;
+
+    a {
+      display: inline-block;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.85);
+      background: rgba(20, 22, 34, 0.72);
+      border: 1px solid rgba(167, 139, 250, 0.35);
+      backdrop-filter: blur(6px);
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    a:hover {
+      border-color: rgba(167, 139, 250, 0.8);
+      color: #a78bfa;
+    }
+  }
+}
