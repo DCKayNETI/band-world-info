@@ -49,4 +49,20 @@ body:has(.sandbox-home) {
       color: #a78bfa;
     }
   }
+
+  @media (max-width: 768px) {
+    .sandbox-wiki-entry {
+      bottom: 152px;
+      left: 12px;
+      opacity: 0.75;
+    }
+  }
+
+  // 横屏：日记按钮贴底、体量更小，导览紧贴其上方
+  @media (max-width: 920px) and (orientation: landscape) {
+    .sandbox-wiki-entry {
+      bottom: 46px;
+      left: 8px;
+    }
+  }
 }
