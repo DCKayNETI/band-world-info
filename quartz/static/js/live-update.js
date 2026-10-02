@@ -42,7 +42,10 @@
       '#live-update-capsule .lv-text{background:linear-gradient(100deg,#ffffff 35%,#f5d061 50%,#ffffff 65%);' +
       'background-size:200px 100%;-webkit-background-clip:text;background-clip:text;' +
       '-webkit-text-fill-color:transparent;animation:lv-shimmer 2.4s linear infinite}' +
-      '#live-update-capsule .lv-arrow{font-size:1.1rem;color:#a78bfa;animation:lv-pulse 1.6s ease-in-out infinite}'
+      '#live-update-capsule .lv-arrow{font-size:1.1rem;color:#a78bfa;animation:lv-pulse 1.6s ease-in-out infinite}' +
+      '@media (max-width:640px){#live-update-capsule{right:12px;bottom:14px;padding:10px 14px;' +
+      'font-size:.82rem;gap:7px;max-width:calc(100vw - 24px)}' +
+      '#live-update-capsule .lv-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:0 1 auto}}'
     document.head.appendChild(style)
 
     var capsule = document.createElement('div')
