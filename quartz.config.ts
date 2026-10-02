@@ -13,7 +13,7 @@ const config: QuartzConfig = {
     analytics: null,
     locale: "zh-CN",
     // ⚠️ 请在上线前替换为你的实际域名或 GitHub Pages 地址，例如: "your-username.github.io/your-repo"
-    baseUrl: "dckayneti.github.io/band-world-info",
+    baseUrl: "dckayneti.github.io/sakikos-starfield",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
     theme: {

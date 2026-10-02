@@ -19,7 +19,7 @@
 
 ### 第一步：Fork 或初始化官方模板
 1. 访问 Quartz 官方模板：[jackyzha0/quartz](https://github.com/jackyzha0/quartz)；
-2. 点击右上角 **Use this template** -> **Create a new repository**（例如命名为 `band-world-info`，设为 **Public**）；
+2. 点击右上角 **Use this template** -> **Create a new repository**（例如命名为 `sakikos-starfield`，设为 **Public**）；
 3. 进入仓库 **Settings** -> **Pages**，在 **Build and deployment** 下将 **Source** 切换为 **GitHub Actions**。
 
 ### 第二步：将本包文件覆盖至仓库
