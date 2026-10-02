@@ -455,9 +455,9 @@
           </div>
           <div style="font-size: 10.5px; color: var(--text-muted); margin-top: 1px;">ANIME WORLD MAP & REAL-TIME EVENT LOCATIONS</div>
         </div>
-        <div class="time-indicator">
+        <div class="time-indicator" id="timeIndicator" title="点击切换：实时东京时间 / 剧情推演时间" style="cursor:pointer;">
           <div class="time-dot"></div>
-          <span>周五 17:30 JST (放学黄昏)</span>
+          <span id="timeText">周五 21:11 JST (夜间)</span>
         </div>
       </div>
 
@@ -1854,6 +1854,74 @@
         localStorage.setItem(storageKey, currentLocKey);
       }
     };
+
+    
+    showAudioToast(clockMode === 'realtime' ? '⏱️ 已切换为：东京真实时钟 (实时流逝)' : '📖 已切换为：剧情切片时间 (17:30 JST)');
+      });
+    }
+
+    setInterval(updateJSTClock, 1000);
+    updateJSTClock();
+
+    
+    // ==========================================
+    // REAL-TIME JST CLOCK & TIMELINE ENGINE (东京实时时钟引擎)
+    // ==========================================
+    let clockMode = 'realtime'; // 'realtime' or 'story'
+
+    function updateJSTClock() {
+      const timeSpan = document.getElementById('timeText');
+      if (!timeSpan) return;
+
+      if (clockMode === 'story') {
+        timeSpan.textContent = '周五 17:30 JST (放学黄昏·推演点)';
+        return;
+      }
+
+      const now = new Date();
+      // Format as Tokyo time (Asia/Tokyo, UTC+9)
+      const formatter = new Intl.DateTimeFormat('zh-CN', {
+        timeZone: 'Asia/Tokyo',
+        weekday: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      const parts = formatter.format(now);
+
+      const hourFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Tokyo',
+        hour: 'numeric',
+        hour12: false
+      });
+      const jstHour = parseInt(hourFormatter.format(now), 10);
+
+      let period = '夜间时段';
+      if (jstHour >= 5 && jstHour < 8) period = '晨间通勤';
+      else if (jstHour >= 8 && jstHour < 12) period = '学园上午';
+      else if (jstHour >= 12 && jstHour < 13) period = '午休就餐';
+      else if (jstHour >= 13 && jstHour < 16) period = '学园下午';
+      else if (jstHour >= 16 && jstHour < 18) period = '放学黄昏';
+      else if (jstHour >= 18 && jstHour < 21) period = '晚间排练';
+      else if (jstHour >= 21 && jstHour < 24) period = '夜班值勤/校对';
+      else period = '深夜静谧';
+
+      timeSpan.textContent = parts + ' JST (' + period + ')';
+    }
+
+    // Toggle mode on click
+    const timeIndicator = document.getElementById('timeIndicator');
+    if (timeIndicator) {
+      timeIndicator.addEventListener('click', () => {
+        clockMode = (clockMode === 'realtime') ? 'story' : 'realtime';
+        updateJSTClock();
+        showAudioToast(clockMode === 'realtime' ? '⏱️ 已切换为：东京真实时钟 (实时流逝)' : '📖 已切换为：剧情切片时间 (17:30 JST)');
+      });
+    }
+
+    setInterval(updateJSTClock, 1000);
+    updateJSTClock();
 
     // Init
     renderRoster();
