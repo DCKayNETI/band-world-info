@@ -471,6 +471,7 @@
       <button class="btn active" id="btnBonds">🕸️ 羁绊连线</button>
       <button class="btn active" id="btnTerrain">🏘️ 区域风貌</button>
       <button class="btn active" id="btnSnapMode">🧲 弹性吸附 [开]</button>
+      <button class="btn active" id="btnAudioToggle" title="祥子位移与拖拽语音">🔊 移动语音 [开]</button>
       <button class="btn" id="btnResetView">🎯 地图复位</button>
     </div>
   </div>
@@ -606,13 +607,13 @@
         romaji: 'Oblivionis / Togawa Sakiko',
         band: 'Ave Mujica',
         role: 'Key. / 假面领袖',
-        color: '#4a6984',
+        color: '#653e9b',
         school: '羽丘女子学园',
-        currentLocation: '电车转乘站台 (自动贩卖机旁)',
-        currentAction: '做完羽丘值日打扫，在站台偶遇初华，分食热肉包并核对第二版乐谱小样',
-        x: 1040, y: 360, ox: 1040, oy: 360, vx: 0, vy: 0,
-        desc: '拉高了薄风衣领口抵御秋风，就着热饮的微温蒸气简短校对小样，随后准备前往晚间客服值班。',
-        quote: '「我已经一无所有了。唯有Ave Mujica，是将我从深渊救赎的唯一契约。」',
+        currentLocation: '客服呼叫中心 (夜班工位)',
+        currentAction: '结束站台会面乘车抵达客服中心，戴上耳麦就座夜班工位；手边放着初华分的热茶，身旁整齐叠放着Ave Mujica周末第二版总谱',
+        x: 920, y: 260, ox: 920, oy: 260, vx: 0, vy: 0,
+        desc: '夜班电话客服的键盘敲击声在耳畔响起。将生活的重荷转化为前行的坚韧，神色从容而专注。',
+        quote: '「您好，这里是客服中心，请问有什么可以为您服务？」——为了乐队，也为了活下去。',
         currentForm: 'uniform'
       },
       {
@@ -701,7 +702,8 @@
     // --- Key Landmarks (保留的核心地标) ---
     const KEY_LANDMARKS = [
       { id: 'lm_ring', name: 'Livehouse RiNG', x: 480, y: 390, icon: '🎸', color: '#5b9bd5', desc: 'MyGO!!!!! 当前正在集结排练的核心Live舞台' },
-      { id: 'lm_station', name: '电车转乘站台', x: 1080, y: 390, icon: '🚉', color: '#d4af37', desc: '祥子与初华当前正在分食热肉包的站台' },
+      { id: 'lm_station', name: '电车转乘站台', x: 1080, y: 390, icon: '🚉', color: '#d4af37', desc: '傍晚初华与祥子会面的站台' },
+      { id: 'lm_callcenter', name: '客服呼叫中心 (夜班)', x: 920, y: 290, icon: '🎧', color: '#653e9b', desc: '丰川祥子当前正在就座值夜班与校对乐谱的工位' },
       { id: 'lm_train', name: '环状铁道 (山手线)', x: 820, y: 560, icon: '🚊', color: '#38598b', desc: '海铃背着贝斯乘车前往池袋中' },
       { id: 'lm_greenhouse', name: '若叶家温室花园', x: 340, y: 800, icon: '🌿', color: '#7fa97e', desc: '若叶睦当前正在修剪绿植花草处' },
       { id: 'lm_studio', name: '喵梦短视频工作室', x: 1260, y: 250, icon: '📹', color: '#e2789f', desc: '祐天寺喵梦正在剪辑视频的工作间' },
@@ -884,6 +886,9 @@
         draggedChar = clicked;
         container.classList.add('dragging-char');
         selectChar(clicked);
+        if (clicked.id === 'sakiko') {
+          SAKIKO_AUDIO_SYSTEM.play('drag');
+        }
         return;
       }
 
@@ -973,6 +978,9 @@
         if (clicked) {
           draggedChar = clicked;
           container.classList.add('dragging-char');
+          if (clicked.id === 'sakiko') {
+            SAKIKO_AUDIO_SYSTEM.play('drag');
+          }
           e.preventDefault();
           return;
         }
@@ -1317,6 +1325,23 @@
       showTerrain = !showTerrain;
       this.classList.toggle('active', showTerrain);
     });
+
+    
+    const btnAudioToggle = document.getElementById('btnAudioToggle');
+    if (btnAudioToggle) {
+      btnAudioToggle.addEventListener('click', () => {
+        isSakikoAudioEnabled = !isSakikoAudioEnabled;
+        if (isSakikoAudioEnabled) {
+          btnAudioToggle.classList.add('active');
+          btnAudioToggle.innerHTML = '🔊 移动语音 [开]';
+          SAKIKO_AUDIO_SYSTEM.play('test');
+        } else {
+          btnAudioToggle.classList.remove('active');
+          btnAudioToggle.innerHTML = '🔈 移动语音 [关]';
+          showAudioToast('🔈 移动语音已静音');
+        }
+      });
+    }
 
     document.getElementById('btnSnapMode').addEventListener('click', function() {
       snapBackEnabled = !snapBackEnabled;
@@ -1689,9 +1714,197 @@
       });
     }
 
+    
+    
+
+    
+    
+
+    
+    // ==========================================
+    // SAKIKO MOVE AUDIO SYSTEM (祥子位移与拖拽语音播放系统)
+    // ==========================================
+    let isSakikoAudioEnabled = true;
+
+    function showAudioToast(msg) {
+      let toast = document.getElementById('sakiko-audio-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'sakiko-audio-toast';
+        toast.style.cssText = 'position:fixed; top:75px; left:50%; transform:translateX(-50%); background:rgba(30,24,48,0.95); border:1px solid rgba(212,175,55,0.7); color:#f3f4f8; padding:8px 20px; border-radius:24px; font-size:13px; font-weight:700; box-shadow:0 6px 25px rgba(0,0,0,0.6), 0 0 18px rgba(212,175,55,0.35); backdrop-filter:blur(14px); z-index:10000; pointer-events:none; opacity:0; transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1);';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = msg;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateX(-50%) translateY(6px)';
+      clearTimeout(toast._timeout);
+      toast._timeout = setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(0px)';
+      }, 2600);
+    }
+
+    const SAKIKO_AUDIO_SYSTEM = {
+      audio: null,
+      lastPlayedTime: 0,
+      debounceMs: 1600,
+      candidateUrls: [
+        './yidong_vocals.mp3',
+        './yidong_vocals.wav',
+        './audio/yidong_vocals.mp3',
+        './audio/yidong_vocals.wav',
+        '../audio/yidong_vocals.mp3',
+        '../audio/yidong_vocals.wav',
+        '../yidong_vocals.mp3',
+        '../yidong_vocals.wav',
+        '/sakikos-starfield/static/audio/yidong_vocals.mp3',
+        '/sakikos-starfield/static/audio/yidong_vocals.wav',
+        '/sakikos-starfield/static/sandbox/yidong_vocals.mp3',
+        '/sakikos-starfield/static/sandbox/yidong_vocals.wav',
+        '/sakikos-starfield/static/yidong_vocals.mp3',
+        '/sakikos-starfield/static/yidong_vocals.wav',
+        '/static/audio/yidong_vocals.mp3',
+        '/static/audio/yidong_vocals.wav',
+        'https://dckayneti.github.io/sakikos-starfield/static/audio/yidong_vocals.mp3',
+        'https://dckayneti.github.io/sakikos-starfield/static/audio/yidong_vocals.wav'
+      ],
+      currentSourceIndex: 0,
+      isLoaded: false,
+      audioCtx: null,
+
+      init() {
+        this.setupAudioElement();
+        // Check location change on load
+        setTimeout(() => {
+          this.checkLocationChange();
+        }, 800);
+      },
+
+      setupAudioElement() {
+        if (this.currentSourceIndex >= this.candidateUrls.length) {
+          return;
+        }
+        const src = this.candidateUrls[this.currentSourceIndex];
+        const a = new Audio();
+        a.src = src;
+        a.preload = 'auto';
+
+        a.oncanplaythrough = () => {
+          this.isLoaded = true;
+          this.audio = a;
+        };
+
+        a.onerror = () => {
+          this.currentSourceIndex++;
+          this.setupAudioElement();
+        };
+
+        this.audio = a;
+      },
+
+      playSynthChime() {
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContext) return;
+          if (!this.audioCtx) this.audioCtx = new AudioContext();
+          if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+
+          const now = this.audioCtx.currentTime;
+          // Dual harmonic bell chime: E5 (659Hz) -> B5 (988Hz)
+          const notes = [659.25, 987.77];
+          notes.forEach((freq, idx) => {
+            const osc = this.audioCtx.createOscillator();
+            const gain = this.audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.12);
+            gain.gain.setValueAtTime(0.2, now + idx * 0.12);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.55);
+            osc.connect(gain);
+            gain.connect(this.audioCtx.destination);
+            osc.start(now + idx * 0.12);
+            osc.stop(now + idx * 0.12 + 0.6);
+          });
+        } catch (e) {
+          console.warn('AudioContext synth error:', e);
+        }
+      },
+
+      play(triggerType = 'drag', extraInfo = '') {
+        if (!isSakikoAudioEnabled) return;
+        const now = Date.now();
+        if (now - this.lastPlayedTime < this.debounceMs) return;
+        this.lastPlayedTime = now;
+
+        const label = triggerType === 'location_change' ? '祥子时空位移' : (triggerType === 'test' ? '语音测试' : '手动拖拽祥子');
+        showAudioToast('🔊 「さき、移動」· ' + label);
+
+        if (this.audio) {
+          this.audio.currentTime = 0;
+          const p = this.audio.play();
+          if (p && typeof p.then === 'function') {
+            p.then(() => {}).catch(err => {
+              console.log('Audio autoplay prevented or file loading:', err);
+              this.playSynthChime();
+              if (triggerType === 'location_change') {
+                window.addEventListener('pointerdown', () => {
+                  if (this.audio) this.audio.play().catch(() => {});
+                }, { once: true });
+              }
+            });
+          }
+        } else {
+          this.playSynthChime();
+        }
+      },
+
+      checkLocationChange() {
+        const saki = CHARACTERS.find(c => c.id === 'sakiko');
+        if (!saki) return;
+        const currentLocKey = saki.currentLocation || (saki.ox + ',' + saki.oy);
+        const storageKey = 'bangdream_sakiko_last_known_location';
+        const lastLoc = localStorage.getItem(storageKey);
+
+        if (lastLoc && lastLoc !== currentLocKey) {
+          console.log('[Sakiko Audio] Location changed: ' + lastLoc + ' -> ' + currentLocKey);
+          this.play('location_change', '从「' + lastLoc + '」变更为「' + currentLocKey + '」');
+        }
+        localStorage.setItem(storageKey, currentLocKey);
+      }
+    };
+
     // Init
     renderRoster();
+    SAKIKO_AUDIO_SYSTEM.init();
+    SAKIKO_AUDIO_SYSTEM.init();
+    SAKIKO_AUDIO_SYSTEM.init();
     render();
   </script>
+
+  <!-- Floating Diary Navigation Button -->
+  <div style="position:fixed; bottom:24px; right:80px; z-index:9999;">
+    <a id="sandbox-diary-btn" href="../03-乐团共享日记/乐团共享日记本" target="_top"
+       style="display:inline-flex; align-items:center; gap:8px; padding:9px 18px; border-radius:10px; font-size:13px; font-weight:600;
+              text-decoration:none; color:rgba(255,255,255,0.92);
+              background:rgba(20,24,38,0.88); border:1px solid rgba(167,139,250,0.45);
+              box-shadow:0 4px 18px rgba(0,0,0,0.45); backdrop-filter:blur(10px); transition:all 0.25s ease; cursor:pointer;"
+       onmouseover="this.style.background='rgba(83,52,131,0.95)'; this.style.borderColor='rgba(167,139,250,0.8)';"
+       onmouseout="this.style.background='rgba(20,24,38,0.88)'; this.style.borderColor='rgba(167,139,250,0.45)';">
+      📖 乐团共享日记
+    </a>
+  </div>
+  <script>
+    (function() {
+      const btn = document.getElementById('sandbox-diary-btn');
+      if (btn) {
+        const path = window.location.pathname;
+        if (path.includes('/static/sandbox/')) {
+          btn.href = path.replace('/static/sandbox/', '/03-乐团共享日记/乐团共享日记本');
+        } else if (path.includes('/static/sandbox')) {
+          btn.href = path.replace('/static/sandbox', '/03-乐团共享日记/乐团共享日记本');
+        }
+      }
+    })();
+  </script>
 </body>
+
 </html>
