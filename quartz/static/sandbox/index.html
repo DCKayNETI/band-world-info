@@ -1474,6 +1474,7 @@
 
     // Illustrated Anime Town Districts (手绘质感的街区色块与水系)
     function drawAnimeTownDistricts() {
+      const isLateNight = (clockMode === 'late_night_sleep');
       // 1. Kanda River (神田川水岸) - Shimmering river with waves
       ctx.beginPath();
       ctx.moveTo(100, 620);
@@ -1565,14 +1566,14 @@
         ctx.moveTo(d.pts[0][0], d.pts[0][1]);
         for (let i = 1; i < d.pts.length; i++) ctx.lineTo(d.pts[i][0], d.pts[i][1]);
         ctx.closePath();
-        ctx.fillStyle = d.fill;
+        ctx.fillStyle = isLateNight ? 'rgba(15, 20, 32, 0.28)' : d.fill;
         ctx.fill();
-        ctx.strokeStyle = d.border;
+        ctx.strokeStyle = isLateNight ? 'rgba(60, 80, 115, 0.22)' : d.border;
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
         // Label
-        ctx.fillStyle = d.textColor;
+        ctx.fillStyle = isLateNight ? 'rgba(140, 160, 195, 0.38)' : d.textColor;
         ctx.font = 'bold 13px sans-serif';
         ctx.textAlign = 'left';
         ctx.fillText(d.name, d.pts[0][0] + 16, d.pts[0][1] + 24);
@@ -1777,7 +1778,12 @@
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
 
-        const nameTag = `${c.name} (${c.role.split('/')[0].trim()})`;
+        const isSleeping = (clockMode === 'late_night_sleep') || (c.currentAction && (c.currentAction.includes('睡') || c.currentAction.includes('休眠')));
+        let nameTag = `${c.name} (${c.role.split('/')[0].trim()})`;
+        if (isSleeping) {
+          const homeName = c.currentLocation.split('·')[0].replace('（', '').replace('）', '').replace('住宅', '宅').trim();
+          nameTag = `🏠 ${c.name} · ${homeName}`;
+        }
         const tagW = ctx.measureText(nameTag).width;
 
         ctx.fillStyle = 'rgba(14, 18, 28, 0.94)';
@@ -1790,7 +1796,6 @@
         ctx.fillText(nameTag, c.x, c.y + radius + 9);
 
         // Sleep Mode Indicator: Floating 💤
-        const isSleeping = c.currentAction && (c.currentAction.includes('安睡') || c.currentAction.includes('沉睡') || c.currentAction.includes('休眠'));
         if (isSleeping) {
           ctx.save();
           const zFloat = Math.sin(frame * 0.05 + c.ox * 0.1) * 3;
@@ -2026,9 +2031,9 @@
         anon: { ox: 480, oy: 150, loc: '千早家公寓 · 卧室床榻', act: '整个人陷在粉色蓬松羽绒被深处沉睡，床头柜手机插着快充线并开启免打扰夜间模式', quote: '「……呼噜……今天换的吉他新弦……明天一定会发出超棒的声音……」' },
         soyo: { ox: 980, oy: 760, loc: '白金台高层豪华公寓 · 私人主卧', act: '宽幅遮光落地窗帘拉得严严实实，整洁优雅的大床上一片静谧安睡，手边留有空骨瓷茶杯', quote: '「……大家……都能平安睡个好觉……真是太好了……」' },
         taki: { ox: 380, oy: 630, loc: '椎名家住宅 · 卧室床铺', act: '戴着隔音耳塞在单人床上深度沉睡，床头柜散落着修改工整的切分音四连音鼓谱草稿', quote: '「……呼……明天三点半前……进料……绝对不能迟到……」' },
-        rana: { ox: 290, oy: 360, loc: '宇川家日式老宅 · 榻榻米被褥', act: '像一只小猫一样把整个人蜷缩在软绵绵的棉被深处酣睡，嘴角带着微微的满足笑意', quote: '「……呼喵……抹茶芭菲……双倍红豆……大满足……」' },
+        rana: { ox: 160, oy: 380, loc: '宇川家日式老宅 · 榻榻米被褥', act: '像一只小猫一样把整个人蜷缩在软绵绵的棉被深处酣睡，嘴角带着微微的满足笑意', quote: '「……呼喵……抹茶芭菲……双倍红豆……大满足……」' },
         sakiko: { ox: 820, oy: 440, loc: '目白平民单间公寓 · 简易单人床', act: '总谱笔记本与铅笔端正合拢置于桌角，关掉台灯静静沉睡，让疲惫的指尖得到彻底休整，为周六白天的钢琴家教储备充沛精力', quote: '「……休息吧……双手的指尖需要休息……明天的琴音不能有一丝颤抖……」' },
-        mutsumi: { ox: 250, oy: 730, loc: '若叶家大宅 · 主卧二楼卧室', act: '居室熄灯静卧安睡，窗外庭院里整齐排列的温室与花木在微凉的秋夜月光下无声呼吸', quote: '「……安静的根系……在黑夜里……也会慢慢向下伸展……」' },
+        mutsumi: { ox: 150, oy: 750, loc: '若叶家大宅 · 主卧二楼卧室', act: '居室熄灯静卧安睡，窗外庭院里整齐排列的温室与花木在微凉的秋夜月光下无声呼吸', quote: '「……安静的根系……在黑夜里……也会慢慢向下伸展……」' },
         umiri: { ox: 640, oy: 610, loc: '八幡家公寓 · 极简卧室', act: '闹钟分秒不差设定为早晨六点三十分，被褥铺得平整端正，双手置于身侧标准平躺深睡', quote: '「……距离晨起六点三十分……尚余五小时十六分……休眠中……」' },
         nyamu: { ox: 1220, oy: 180, loc: '池袋公寓 · 卧房大床', act: '紧绷一整天的自媒体博主终于拔掉电脑电源与补光灯，脸上贴着晚安修护贴，倒在床上呼呼大睡', quote: '「……呼呼……明天醒来……播放量一定要冲上全站热搜……」' },
         uika: { ox: 1140, oy: 680, loc: '都心艺能寓所 · 私密卧房', act: '拉好遮光帘，将明日电视台直播演出的服装熨烫悬挂妥当，彻底关灯进入完全静止的深度睡眠', quote: '「……愿今夜的星辰……能给沉睡的东京带去宁静安详的梦……」' },
