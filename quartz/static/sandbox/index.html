@@ -38,63 +38,7 @@
     }
     canvas { display: block; width: 100%; height: 100%; touch-action: none; }
 
-    @media (max-width: 768px) {
-      .top-bar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-        top: 10px; left: 10px; right: 10px;
-      }
-      .top-left {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-      }
-      .top-right {
-        display: flex;
-        overflow-x: auto;
-        padding-bottom: 4px;
-        scrollbar-width: none;
-      }
-      .top-right::-webkit-scrollbar { display: none; }
-      .search-box { width: 100%; }
-      .brand-card {
-        padding: 8px 12px;
-        flex-wrap: wrap;
-      }
-      .brand-title { font-size: 13.5px; }
-      .time-indicator { font-size: 10.5px; }
-      .filter-bar {
-        top: 154px; left: 10px; right: 10px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        scrollbar-width: none;
-        padding-bottom: 4px;
-        -webkit-overflow-scrolling: touch;
-      }
-      .filter-bar::-webkit-scrollbar { display: none; }
-      .filter-pill {
-        white-space: nowrap;
-        flex-shrink: 0;
-        padding: 5px 12px;
-        font-size: 11px;
-      }
-      .drawer {
-        width: 92vw;
-        max-width: 400px;
-      }
-      .interaction-hints {
-        display: none;
-      }
-      .roster-container {
-        bottom: 12px;
-        padding: 5px 10px;
-      }
-      .roster-avatar {
-        width: 38px;
-        height: 38px;
-      }
-    }
+
 
     /* Top Bar */
     .top-bar {
@@ -436,34 +380,90 @@
       line-height: 1.5;
     }
   
-    /* === 移动端竖屏适配（置于样式表末尾以确保生效）=== */
-    @media (max-width: 768px) {
-      .top-bar { flex-direction: column; align-items: stretch; gap: 6px; top: 8px; left: 8px; right: 8px; }
-      .top-left { flex-direction: column; align-items: stretch; gap: 6px; }
-      .brand-card { padding: 7px 10px; gap: 8px; flex-wrap: nowrap; align-items: center; }
-      .brand-card > div:first-child { font-size: 16px !important; }
-      .brand-title { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1 1 0; min-width: 0; }
-      .brand-badge-mygo, .brand-badge-mujica { display: none !important; }
-      .brand-subtitle { display: none !important; }
-      .time-indicator { font-size: 10px; white-space: nowrap; max-width: 96px; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
-      .weather-indicator { font-size: 9.5px; white-space: nowrap; max-width: 110px; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
-      .top-right { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
-      .top-right::-webkit-scrollbar { display: none; }
-      .btn { white-space: nowrap; flex: 0 0 auto; width: auto; height: auto; padding: 6px 10px; font-size: 11px; }
-      .search-box { width: 100%; }
-      .filter-bar { top: 102px; left: 8px; right: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
-      .filter-bar::-webkit-scrollbar { display: none; }
-      .filter-pill { white-space: nowrap; flex-shrink: 0; padding: 4px 10px; font-size: 10.5px; }
-      .drawer { width: 92vw; max-width: 400px; }
-      .interaction-hints { display: none; }
-      .roster-container { bottom: 8px; padding: 4px 8px; }
-      .roster-avatar { width: 34px; height: 34px; }
-      .sandbox-diary-wrap { bottom: 96px !important; left: 12px !important; }
-      .sandbox-diary-wrap a { padding: 6px 12px; font-size: 11px; }
-    }
+    /* Landscape Compact Mode (zcode patch) */
 
-    /* === 横屏：高度极小，横向紧凑单行布局 === */
-    @media (max-width: 920px) and (orientation: landscape) {
+      @media (max-width: 768px) {
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        top: 10px; left: 10px; right: 10px;
+      }
+      .top-left {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .top-right {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scrollbar-width: none;
+      }
+      .top-right::-webkit-scrollbar { display: none; }
+      .search-box { width: 100%; }
+      .brand-card {
+        padding: 8px 12px;
+        flex-wrap: wrap;
+      }
+      .brand-title { font-size: 13.5px; }
+      .time-indicator { font-size: 10.5px; }
+      .filter-bar {
+        top: 154px; left: 10px; right: 10px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .filter-bar::-webkit-scrollbar { display: none; }
+      .filter-pill {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 5px 12px;
+        font-size: 11px;
+      }
+      .drawer {
+        width: 92vw;
+        max-width: 400px;
+      }
+      .interaction-hints {
+        display: none;
+      }
+      .roster-container {
+        bottom: 12px;
+        padding: 5px 10px;
+      }
+      .roster-avatar {
+        width: 38px;
+        height: 38px;
+      }      .btn {
+        white-space: nowrap;
+        flex: 0 0 auto;
+        width: auto;
+        height: auto;
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+      .weather-indicator {
+        font-size: 9.5px;
+        white-space: nowrap;
+        max-width: 110px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-shrink: 0;
+      }
+      .sandbox-diary-wrap {
+        bottom: 96px !important;
+        left: 12px !important;
+      }
+      .sandbox-diary-wrap a {
+        padding: 6px 12px;
+        font-size: 11px;
+      }
+
+    }
+        @media (max-width: 920px) and (orientation: landscape) {
       .top-bar { flex-direction: row; align-items: center; top: 6px; left: 8px; right: 8px; gap: 8px; }
       .top-left { flex-direction: row; align-items: center; gap: 8px; flex: 1; min-width: 0; }
       .brand-card { padding: 4px 9px; gap: 7px; flex: 0 1 auto; }
@@ -1957,6 +1957,8 @@
     };
 
     
+
+
     
     
     // ==========================================
@@ -2030,7 +2032,22 @@
         mana: { ox: 1270, oy: 770, loc: '寓所起居室', act: '躺在沙发上敷着热眼罩，听着初华录制的声音demo安稳入睡', quote: '「初华酱的声音真的好治愈呀……明天也要元气满满地奔跑！」' }
       },
 
-      // 4. 周末与法定节假日白天 (10:00 - 18:00) - 祥子生计多元拓展版！
+      // 4. 深夜全员安寝深睡 (23:30 - 06:30) - 彻底回归各自家中卧室！
+      late_night_sleep: {
+        tomori: { ox: 690, oy: 310, loc: '高松家宅邸 · 二楼卧室', act: '裹在温暖的被窝中安睡，床头亮着柔和微弱的暖黄小夜灯，桌角整齐码放着今天收集的灰白小石头', quote: '「……呼……就算在很黑很黑的夜里……也一直有心跳的声音……」' },
+        anon: { ox: 620, oy: 260, loc: '千早家公寓 · 卧室床榻', act: '整个人陷在粉色蓬松羽绒被深处沉睡，床头柜手机插着快充线并开启免打扰夜间模式', quote: '「……呼噜……今天换的吉他新弦……明天一定会发出超棒的声音……」' },
+        soyo: { ox: 880, oy: 780, loc: '白金台高层豪华公寓 · 私人主卧', act: '宽幅遮光落地窗帘拉得严严实实，整洁优雅的大床上一片静谧安睡，手边留有空骨瓷茶杯', quote: '「……大家……都能平安睡个好觉……真是太好了……」' },
+        taki: { ox: 520, oy: 720, loc: '椎名家住宅 · 卧室床铺', act: '戴着隔音耳塞在单人床上深度沉睡，床头柜散落着修改工整的切分音四连音鼓谱草稿', quote: '「……呼……明天三点半前……进料……绝对不能迟到……」' },
+        rana: { ox: 650, oy: 380, loc: '宇川家日式老宅 · 榻榻米被褥', act: '像一只小猫一样把整个人蜷缩在软绵绵的棉被深处酣睡，嘴角带着微微的满足笑意', quote: '「……呼喵……抹茶芭菲……双倍红豆……大满足……」' },
+        sakiko: { ox: 750, oy: 360, loc: '目白平民单间公寓 · 简易单人床', act: '总谱笔记本与铅笔端正合拢置于桌角，关掉台灯静静沉睡，让疲惫的指尖得到彻底休整，为周六白天的钢琴家教储备充沛精力', quote: '「……休息吧……双手的指尖需要休息……明天的琴音不能有一丝颤抖……」' },
+        mutsumi: { ox: 330, oy: 780, loc: '若叶家大宅 · 主卧二楼卧室', act: '居室熄灯静卧安睡，窗外庭院里整齐排列的温室与花木在微凉的秋夜月光下无声呼吸', quote: '「……安静的根系……在黑夜里……也会慢慢向下伸展……」' },
+        umiri: { ox: 590, oy: 690, loc: '八幡家公寓 · 极简卧室', act: '闹钟分秒不差设定为早晨六点三十分，被褥铺得平整端正，双手置于身侧标准平躺深睡', quote: '「……距离晨起六点三十分……尚余五小时十六分……休眠中……」' },
+        nyamu: { ox: 1220, oy: 280, loc: '池袋公寓 · 卧房大床', act: '紧绷一整天的自媒体博主终于拔掉电脑电源与补光灯，脸上贴着晚安修护贴，倒在床上呼呼大睡', quote: '「……呼呼……明天醒来……播放量一定要冲上全站热搜……」' },
+        uika: { ox: 1210, oy: 720, loc: '都心艺能寓所 · 私密卧房', act: '拉好遮光帘，将明日电视台直播演出的服装熨烫悬挂妥当，彻底关灯进入完全静止的深度睡眠', quote: '「……愿今夜的星辰……能给沉睡的东京带去宁静安详的梦……」' },
+        mana: { ox: 1260, oy: 750, loc: 'sumimi 宿舍居室 · 卧室床榻', act: '戴着温热蒸汽眼罩平躺在床上沉睡，耳边循环播放着舒缓的无损白噪音助眠音频', quote: '「……呼……初华酱晚安……明天也要元气满满地跳舞……」' }
+      },
+
+      // 5. 周末与法定节假日白天 (10:00 - 18:00) - 祥子生计多元拓展版！
       weekend_live: {
         tomori: { ox: 460, oy: 580, loc: '神田川天桥与水岸步道', act: '沿着清凉河岸漫步，俯身捡拾被水流冲刷平整的灰白鹅卵石与完整银杏叶', quote: '「周末的河岸边，水流的声音很清脆……小石头也安安静静的。」' },
         anon: { ox: 820, oy: 420, loc: '涩谷乐器商圈 · 乐器行', act: '在乐器行试弹新款粉色效果器，认真挑选适合下场演出的吉他背带', quote: '「周末的涉谷果然最热闹啦！今天一定要挑到最称心如意的吉他背带！」' },
@@ -2117,31 +2134,37 @@
 
       if (isWeekend) {
         if (jstHour >= 0 && jstHour < 7) {
-          periodLabel = '周末深夜·安歇就寝';
-          scenario = 'night_quiet';
+          periodLabel = '周末深夜 · 全员寝室深睡安歇';
+          scenario = 'late_night_sleep';
         } else if (jstHour >= 7 && jstHour < 18) {
-          periodLabel = '周末假期·外出与祥子家教配器';
+          periodLabel = '周末假期 · 外出漫游与祥子家教配器';
           scenario = 'weekend_live';
-        } else {
-          periodLabel = '周末夜晚·排练与自媒体制作';
+        } else if (jstHour >= 18 && jstHour < 23) {
+          periodLabel = '周末夜晚 · 排练集结与归家';
           scenario = 'night_quiet';
+        } else {
+          periodLabel = '周末深夜 · 准备就寝';
+          scenario = 'late_night_sleep';
         }
       } else {
         if (jstHour >= 0 && jstHour < 7) {
-          periodLabel = '深夜静谧·独处备战';
-          scenario = 'night_quiet';
+          periodLabel = '深夜静谧 · 全员卧室深睡安息';
+          scenario = 'late_night_sleep';
         } else if (jstHour >= 7 && jstHour < 9) {
-          periodLabel = '晨间通勤·电车通学';
+          periodLabel = '晨间通勤 · 电车通学';
           scenario = 'weekday_school';
         } else if (jstHour >= 9 && jstHour < 15) {
-          periodLabel = '平日学园·课业授课';
+          periodLabel = '平日学园 · 课业授课中';
           scenario = 'weekday_school';
         } else if (jstHour >= 15 && jstHour < 19) {
-          periodLabel = '放学黄昏·RiNG排练集结';
+          periodLabel = '放学黄昏 · RiNG排练换弦集结';
           scenario = 'twilight_ring';
-        } else {
-          periodLabel = '夜晚时段·合练收尾与客服值勤';
+        } else if (jstHour >= 19 && jstHour < 23) {
+          periodLabel = '晚间时段 · 合练收尾与末班电车';
           scenario = 'night_quiet';
+        } else {
+          periodLabel = '深夜熄灯 · 陆续就寝';
+          scenario = 'late_night_sleep';
         }
       }
 
@@ -2358,6 +2381,7 @@
           <button style="background:#2a334a; color:#38bdf8; border:1px solid #38bdf855; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;" onclick="window.__SANDBOX_DEV__.setMode('weekday_school')">平日在校</button>
           <button style="background:#2a334a; color:#5b9bd5; border:1px solid #5b9bd555; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;" onclick="window.__SANDBOX_DEV__.setMode('twilight_ring')">放学集结</button>
           <button style="background:#2a334a; color:#a78bfa; border:1px solid #a78bfa55; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;" onclick="window.__SANDBOX_DEV__.setMode('weekend_live')">周末漫游</button>
+          <button style="background:#2a334a; color:#818cf8; border:1px solid #818cf855; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;" onclick="window.__SANDBOX_DEV__.setMode('late_night_sleep')">🛌安睡</button>
           <span style="color:#4a5a7e; margin:0 2px;">|</span>
           <button style="background:#1e3a5f; color:#60a5fa; border:1px solid #60a5fa55; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;" onclick="window.__SANDBOX_DEV__.setWeather('rain')">🌧️雨景</button>
           <button style="background:#3a2e1e; color:#facc15; border:1px solid #facc1555; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;" onclick="window.__SANDBOX_DEV__.setWeather('stars')">✨星原</button>
@@ -2447,7 +2471,7 @@
       getLandmarks: () => KEY_LANDMARKS,
       triggerVoice: () => {
         if (typeof SAKIKO_AUDIO_SYSTEM !== 'undefined') {
-          SAKIKO_AUDIO_SYSTEM.playAudio('manual_drag');
+          SAKIKO_AUDIO_SYSTEM.play('manual_drag');
         }
       }
     };
@@ -2465,7 +2489,7 @@
   </script>
 
   <!-- Floating Diary Navigation Button -->
-  <div class="sandbox-diary-wrap" style="position:fixed; bottom:24px; left:24px; z-index:9999;">
+  <div style="position:fixed; bottom:24px; right:80px; z-index:9999;">
     <a id="sandbox-diary-btn" href="../03-乐团共享日记/乐团共享日记本" target="_top"
        style="display:inline-flex; align-items:center; gap:8px; padding:9px 18px; border-radius:10px; font-size:13px; font-weight:600;
               text-decoration:none; color:rgba(255,255,255,0.92);
