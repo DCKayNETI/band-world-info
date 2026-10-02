@@ -2,6 +2,10 @@
 title: 乐团世界书 · 数字花园维基站
 ---
 
+<iframe src="/static/sandbox/" style="width: 100%; height: 88vh; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; box-shadow: 0 10px 35px rgba(0,0,0,0.5);" loading="eager"></iframe>
+
+> 🗺️ **首页首屏即互动沙盘** · 想要无遮挡的沉浸体验？[打开独立全屏沙盘](/static/sandbox/)
+
 # 乐团世界书 · 数字化世界观与记忆网络
 
 > **BanG Dream! MyGO!!!!! × Ave Mujica World Info & Living Garden**  
