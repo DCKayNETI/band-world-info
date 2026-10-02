@@ -85,6 +85,8 @@ export default (() => {
         <link rel="icon" href={iconPath} />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
+        <meta name="build-sha" content="BUILD_SHA_PLACEHOLDER" />
+        <script key="live-update" src={joinSegments(baseDir, "static/js/live-update.js")} defer />
 
         {css.map((resource) => CSSResourceToStyleElement(resource, true))}
         {js

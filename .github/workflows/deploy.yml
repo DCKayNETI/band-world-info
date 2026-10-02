@@ -30,6 +30,12 @@ jobs:
         run: npm ci
       - name: Build Quartz
         run: npx quartz build
+      - name: Stamp build version (live-update support)
+        run: |
+          SHORT_SHA="${GITHUB_SHA:0:10}"
+          printf '{"sha":"%s","builtAt":"%s"}\n' "$SHORT_SHA" "$(date -u +%FT%TZ)" > public/static/version.json
+          find public -name '*.html' -exec sed -i "s/BUILD_SHA_PLACEHOLDER/$SHORT_SHA/g" {} +
+          echo "build-sha=$SHORT_SHA" >> "$GITHUB_OUTPUT"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
