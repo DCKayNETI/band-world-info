@@ -2,14 +2,18 @@ name: Auto-Sync from Google Drive
 
 on:
   schedule:
-    # 每天东京时间 06:00, 12:00, 18:00, 24:00 (UTC 21:00, 03:00, 09:00, 15:00) 自动同步
-    - cron: "0 3,9,15,21 * * *"
+    # 每 30 分钟自动同步一次（UTC，约等于东京时间每 30 分钟）
+    - cron: "*/30 * * * *"
   workflow_dispatch:
   repository_dispatch:
     types: [gdrive_update]
 
 permissions:
   contents: write
+
+concurrency:
+  group: gdrive-sync
+  cancel-in-progress: true
 
 jobs:
   sync:
@@ -29,6 +33,10 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Bot"
           git add content/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync updated documents from Google Drive [skip ci]" && git push)
+          if ! git diff --staged --quiet; then
+            # 提交信息不得含 [skip ci]：否则会压制 deploy.yml 的 push 触发，网站不更新
+            git commit -m "sync: auto-sync updated documents from Google Drive"
+            git push
+          fi
 
 # 注册触碰: 修复 GitHub 偶发的 workflow 未注册问题
