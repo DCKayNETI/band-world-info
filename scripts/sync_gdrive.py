@@ -18,6 +18,8 @@ DOCS_MAP = {
     "1k3RmSwz9G8zCDk97fut72KAfh3odRNt3SQ9fxlQglik": "content/03-乐团共享日记/乐团共享日记本.md",
     "1QixMpZwdImV1a65hx8jr5j_mWWPAIOeJv9FSxlp4TgY": "content/05-创作者随想/创作者世界观随想笔记.md",
 
+    "1bMIVQ31xip0fegW6EsIheaRxZ29qjmDSJyofBU6KKw8": "content/06-全景沙盘/未来演进计划与版本发布日志.md",
+
     # 11 位成员专属记忆档案
     "1C3NoJ7mk8EjmnPgTEEx48eEbdFpgJIMSbTq0NyXMXTc": "content/04-成员记忆档案/丰川祥子_长期记忆档案.md",
     "1BeXSsxyyReIZXUq_U-VFsXv1BJSVOa5MNtwkMQlS2eM": "content/04-成员记忆档案/千早爱音_长期记忆档案.md",

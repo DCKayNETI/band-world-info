@@ -38,6 +38,63 @@
     }
     canvas { display: block; width: 100%; height: 100%; touch-action: none; }
 
+    @media (max-width: 768px) {
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        top: 10px; left: 10px; right: 10px;
+      }
+      .top-left {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .top-right {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scrollbar-width: none;
+      }
+      .top-right::-webkit-scrollbar { display: none; }
+      .search-box { width: 100%; }
+      .brand-card {
+        padding: 8px 12px;
+        flex-wrap: wrap;
+      }
+      .brand-title { font-size: 13.5px; }
+      .time-indicator { font-size: 10.5px; }
+      .filter-bar {
+        top: 154px; left: 10px; right: 10px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .filter-bar::-webkit-scrollbar { display: none; }
+      .filter-pill {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 5px 12px;
+        font-size: 11px;
+      }
+      .drawer {
+        width: 92vw;
+        max-width: 400px;
+      }
+      .interaction-hints {
+        display: none;
+      }
+      .roster-container {
+        bottom: 12px;
+        padding: 5px 10px;
+      }
+      .roster-avatar {
+        width: 38px;
+        height: 38px;
+      }
+    }
 
     /* Top Bar */
     .top-bar {
@@ -378,123 +435,44 @@
       z-index: 10;
       line-height: 1.5;
     }
-      @media (max-width: 768px) {
-      .top-bar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 6px;
-        top: 8px; left: 8px; right: 8px;
-      }
-      .top-left {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 6px;
-      }
-      .brand-card {
-        padding: 7px 10px;
-        gap: 8px;
-        flex-wrap: nowrap;
-        align-items: center;
-      }
-      .brand-title {
-        font-size: 12px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        flex: 1 1 0;
-        min-width: 0;
-      }
-      .brand-subtitle { display: none !important; }
-      .brand-badge-mygo, .brand-badge-mujica { display: none !important; }
+  
+    /* === 移动端竖屏适配（置于样式表末尾以确保生效）=== */
+    @media (max-width: 768px) {
+      .top-bar { flex-direction: column; align-items: stretch; gap: 6px; top: 8px; left: 8px; right: 8px; }
+      .top-left { flex-direction: column; align-items: stretch; gap: 6px; }
+      .brand-card { padding: 7px 10px; gap: 8px; flex-wrap: nowrap; align-items: center; }
       .brand-card > div:first-child { font-size: 16px !important; }
-      .time-indicator {
-        font-size: 10px;
-        white-space: nowrap;
-        max-width: 96px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        flex-shrink: 0;
-      }
-      .top-right {
-        display: flex;
-        gap: 6px;
-        overflow-x: auto;
-        padding-bottom: 4px;
-        scrollbar-width: none;
-      }
+      .brand-title { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1 1 0; min-width: 0; }
+      .brand-badge-mygo, .brand-badge-mujica { display: none !important; }
+      .brand-subtitle { display: none !important; }
+      .time-indicator { font-size: 10px; white-space: nowrap; max-width: 96px; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+      .weather-indicator { font-size: 9.5px; white-space: nowrap; max-width: 110px; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+      .top-right { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
       .top-right::-webkit-scrollbar { display: none; }
-      .btn {
-        white-space: nowrap;
-        flex: 0 0 auto;
-        width: auto;
-        height: auto;
-        padding: 6px 10px;
-        font-size: 11px;
-      }
+      .btn { white-space: nowrap; flex: 0 0 auto; width: auto; height: auto; padding: 6px 10px; font-size: 11px; }
       .search-box { width: 100%; }
-      .filter-bar {
-        top: 112px; left: 8px; right: 8px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        scrollbar-width: none;
-        padding-bottom: 4px;
-        -webkit-overflow-scrolling: touch;
-      }
+      .filter-bar { top: 102px; left: 8px; right: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
       .filter-bar::-webkit-scrollbar { display: none; }
-      .filter-pill {
-        white-space: nowrap;
-        flex-shrink: 0;
-        padding: 4px 10px;
-        font-size: 10.5px;
-      }
-      .drawer {
-        width: 92vw;
-        max-width: 400px;
-      }
+      .filter-pill { white-space: nowrap; flex-shrink: 0; padding: 4px 10px; font-size: 10.5px; }
+      .drawer { width: 92vw; max-width: 400px; }
       .interaction-hints { display: none; }
-      .roster-container {
-        bottom: 8px;
-        padding: 4px 8px;
-      }
-      .roster-avatar {
-        width: 34px;
-        height: 34px;
-      }
-      .sandbox-diary-wrap {
-        bottom: 96px !important;
-        left: 12px !important;
-      }
-      .sandbox-diary-wrap a {
-        padding: 6px 12px;
-        font-size: 11px;
-      }
+      .roster-container { bottom: 8px; padding: 4px 8px; }
+      .roster-avatar { width: 34px; height: 34px; }
+      .sandbox-diary-wrap { bottom: 96px !important; left: 12px !important; }
+      .sandbox-diary-wrap a { padding: 6px 12px; font-size: 11px; }
     }
-    
-    /* 横屏（手机/平板横向）：高度极小，改用横向紧凑单行布局 */
+
+    /* === 横屏：高度极小，横向紧凑单行布局 === */
     @media (max-width: 920px) and (orientation: landscape) {
-      .top-bar {
-        flex-direction: row;
-        align-items: center;
-        top: 6px; left: 8px; right: 8px;
-        gap: 8px;
-      }
-      .top-left {
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
-        flex: 1;
-        min-width: 0;
-      }
-      .brand-card {
-        padding: 4px 9px;
-        gap: 7px;
-        flex: 0 1 auto;
-      }
+      .top-bar { flex-direction: row; align-items: center; top: 6px; left: 8px; right: 8px; gap: 8px; }
+      .top-left { flex-direction: row; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+      .brand-card { padding: 4px 9px; gap: 7px; flex: 0 1 auto; }
       .brand-card > div:first-child { font-size: 14px !important; }
       .brand-title { font-size: 11px; white-space: nowrap; }
       .brand-badge-mygo, .brand-badge-mujica { display: none !important; }
       .brand-subtitle { display: none !important; }
       .time-indicator { font-size: 9.5px; max-width: 92px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+      .weather-indicator { font-size: 9px; max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
       .search-box { flex: 1 1 110px; width: auto; min-width: 84px; }
       .search-input { font-size: 11px; padding: 4px 8px; }
       .top-right { gap: 5px; overflow-x: auto; scrollbar-width: none; }
@@ -527,11 +505,15 @@
             <span class="brand-badge-mygo">MyGO!!!!!</span>
             <span class="brand-badge-mujica">Ave Mujica</span>
           </div>
-          <div class="brand-subtitle" style="font-size: 10.5px; color: var(--text-muted); margin-top: 1px;">ANIME WORLD MAP & REAL-TIME EVENT LOCATIONS</div>
+          <div style="font-size: 10.5px; color: var(--text-muted); margin-top: 1px;">ANIME WORLD MAP & REAL-TIME EVENT LOCATIONS</div>
         </div>
-        <div class="time-indicator" id="timeIndicator" title="点击切换：实时东京时间 / 剧情推演时间" style="cursor:pointer;">
+        <div class="time-indicator" id="timeIndicator">
           <div class="time-dot"></div>
           <span id="timeText">周五 21:11 JST (夜间)</span>
+        </div>
+        <div class="weather-indicator" id="weatherIndicator" style="display:inline-flex; align-items:center; gap:5px; font-size:11px; color:#a0aec0; background:rgba(255,255,255,0.06); padding:2px 8px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); margin-left:8px;">
+          <span id="weatherIcon">✨</span>
+          <span id="weatherText">东京 17°C · 澄澈星原</span>
         </div>
       </div>
 
@@ -776,10 +758,13 @@
     // --- Key Landmarks (保留的核心地标) ---
     const KEY_LANDMARKS = [
       { id: 'lm_ring', name: 'Livehouse RiNG', x: 480, y: 390, icon: '🎸', color: '#5b9bd5', desc: 'MyGO!!!!! 当前正在集结排练的核心Live舞台' },
+      { id: 'lm_haneoka', name: '羽丘女子学园', x: 740, y: 260, icon: '🏫', color: '#38bdf8', desc: '都立学园；高松灯、千早爱音、丰川祥子、八幡海铃、祐天寺若麦就读之地。教学楼长阶梯与天台承载着无数迷茫、挣扎与最初的呐喊。' },
       { id: 'lm_station', name: '电车转乘站台', x: 1080, y: 390, icon: '🚉', color: '#d4af37', desc: '傍晚初华与祥子会面的站台' },
-      { id: 'lm_callcenter', name: '客服呼叫中心 (夜班)', x: 920, y: 290, icon: '🎧', color: '#653e9b', desc: '丰川祥子当前正在就座值夜班与校对乐谱的工位' },
+      { id: 'lm_callcenter', name: '客服呼叫中心 (夜班)', x: 940, y: 290, icon: '🎧', color: '#653e9b', desc: '丰川祥子当前正在就座值夜班与校对乐谱的工位' },
       { id: 'lm_train', name: '环状铁道 (山手线)', x: 820, y: 560, icon: '🚊', color: '#38598b', desc: '海铃背着贝斯乘车前往池袋中' },
-      { id: 'lm_greenhouse', name: '若叶家温室花园', x: 340, y: 800, icon: '🌿', color: '#7fa97e', desc: '若叶睦当前正在修剪绿植花草处' },
+      { id: 'lm_greenhouse', name: '若叶家温室花园', x: 300, y: 800, icon: '🌿', color: '#7fa97e', desc: '若叶睦当前正在修剪绿植花草处' },
+      { id: 'lm_hanasakigawa', name: '花咲川女子学园', x: 570, y: 780, icon: '🌸', color: '#ff8cb2', desc: '传统历史名校；椎名立希与要乐奈就读之地。校舍坐落于陡峭斜坡之上，校门前盛开樱花，见证了赶往RiNG打工与随性翘课的日常。' },
+      { id: 'lm_tsukinomori', name: '月之森女子学园', x: 910, y: 810, icon: '🏛️', color: '#a78bfa', desc: '私立名门大小姐学园；长崎素世与若叶睦就读之地。校风典雅克制，林荫幽深静谧，亦是旧 CRYCHIC 最初的缘起之所与沉重回忆断点。' },
       { id: 'lm_studio', name: '喵梦短视频工作室', x: 1260, y: 250, icon: '📹', color: '#e2789f', desc: '祐天寺喵梦正在剪辑视频的工作间' },
       { id: 'lm_station_stage', name: '电视台艺能演播大楼', x: 1260, y: 770, icon: '🎤', color: '#ff7675', desc: 'sumimi 偶像休息室与通告摄影棚' }
     ];
@@ -1314,7 +1299,19 @@
       document.getElementById('drawerTitle').innerText = `${lm.icon} ${lm.name}`;
       document.getElementById('drawerSub').innerText = lm.desc;
 
-      const residents = CHARACTERS.filter(c => c.currentLocation.includes(lm.name.split(' ')[0]));
+      const isSchool = lm.name.includes('学园');
+      const schoolKey = isSchool ? lm.name.replace('女子学园', '').replace('学园', '') : '';
+
+      document.getElementById('drawerBadge').innerText = isSchool ? '核心学园据点' : '核心保留地标';
+
+      const residents = CHARACTERS.filter(c => {
+        if (c.currentLocation && c.currentLocation.includes(lm.name.split(' ')[0])) return true;
+        if (isSchool && c.school && c.school.includes(schoolKey)) return true;
+        return false;
+      });
+
+      const sectionTitle = isSchool ? '该学园就读成员 (全员档案)' : '当前位于此地的角色 (17:30 JST)';
+
       const residentTags = residents.map(c => `
         <span style="display:inline-flex; align-items:center; gap:4px; padding:4px 10px; border-radius:14px; background:${c.color}25; color:${c.color}; font-size:11.5px; font-weight:700; border:1px solid ${c.color}50; cursor:pointer;" onclick="focusCharById('${c.id}')">
           <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:${c.color}"></span>
@@ -1327,9 +1324,9 @@
           <div style="font-size:13px; line-height:1.6; color:#d1d9e6;">${lm.desc}</div>
         </div>
 
-        <div class="drawer-section-title">当前位于此地的角色 (17:30 JST)</div>
+        <div class="drawer-section-title">${sectionTitle}</div>
         <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
-          ${residentTags || '<span style="font-size:12px; color:var(--text-muted);">暂无角色在此停留</span>'}
+          ${residentTags || '<span style="font-size:12px; color:var(--text-muted);">暂无角色关联</span>'}
         </div>
       `;
     }
@@ -1466,10 +1463,16 @@
         drawBonds();
       }
 
-      // 8. Character Nodes (Real Avatars at Exact 17:30 JST Positions!)
+      // 8. Character Nodes (Real Avatars at Exact Positions)
       drawCharacters();
 
+      // 9. Weather Particle & Ripple Layer in World Space
+      drawWeatherWorldLayer();
+
       ctx.restore();
+
+      // 10. Screen-space Atmosphere & Vignette
+      drawWeatherScreenOverlay(w, h);
 
       requestAnimationFrame(render);
     }
@@ -1526,10 +1529,18 @@
         {
           name: '西池袋 · RiNG 排练街区',
           sub: 'MyGO!!!!! 五人合流合练之地',
-          pts: [[220, 200], [700, 200], [720, 550], [200, 530]],
+          pts: [[220, 200], [670, 200], [680, 550], [200, 530]],
           fill: 'rgba(38, 48, 72, 0.55)',
           border: 'rgba(91, 155, 213, 0.4)',
           textColor: '#5b9bd5'
+        },
+        {
+          name: '杂司谷 · 羽丘学园文教丘陵',
+          sub: '灯 / 爱音 / 祥子 / 海铃 / 若麦 求学与天台见证之地',
+          pts: [[680, 160], [880, 160], [860, 360], [670, 360]],
+          fill: 'rgba(28, 45, 64, 0.55)',
+          border: 'rgba(56, 189, 248, 0.45)',
+          textColor: '#38bdf8'
         },
         {
           name: '交通枢纽 · 电车转乘站台',
@@ -1540,9 +1551,25 @@
           textColor: '#d4af37'
         },
         {
+          name: '早稻田 · 花咲川学园坡道',
+          sub: '立希与乐奈就读之坡上传统名校',
+          pts: [[480, 680], [680, 680], [660, 920], [460, 920]],
+          fill: 'rgba(52, 30, 42, 0.55)',
+          border: 'rgba(255, 140, 178, 0.45)',
+          textColor: '#ff8cb2'
+        },
+        {
+          name: '白金台 · 月之森千金名门林荫区',
+          sub: '素世与睦就读之私立贵族校舍',
+          pts: [[780, 690], [1050, 690], [1030, 930], [760, 930]],
+          fill: 'rgba(38, 28, 54, 0.55)',
+          border: 'rgba(167, 139, 250, 0.45)',
+          textColor: '#a78bfa'
+        },
+        {
           name: '密林温室 · 若叶家庭园',
           sub: '若叶睦修剪绿植花草处',
-          pts: [[240, 680], [520, 680], [500, 920], [220, 920]],
+          pts: [[160, 680], [420, 680], [400, 920], [140, 920]],
           fill: 'rgba(28, 42, 34, 0.55)',
           border: 'rgba(127, 169, 126, 0.4)',
           textColor: '#7fa97e'
@@ -1931,22 +1958,137 @@
 
     
     
+    
     // ==========================================
-    // REAL-TIME JST CLOCK & TIMELINE ENGINE (东京实时时钟引擎)
+    // 24-HOUR SPATIAL ROUTINE & HOLIDAY ENGINE (全员24小时时空漫游与现实假期引擎)
     // ==========================================
-    let clockMode = 'realtime'; // 'realtime' or 'story'
+    let clockMode = 'realtime'; // 'realtime', 'weekday_school', 'twilight_ring', 'weekend_live'
+
+    // Japanese Holidays & Vacation Helper
+    function isJapaneseHoliday(date) {
+      const m = date.getMonth() + 1;
+      const d = date.getDate();
+      const holidays = [
+        [1, 1], [1, 2], [1, 3], // 元日与正月
+        [2, 11], [2, 23],       // 建国纪念 / 天皇诞生日
+        [3, 20], [3, 21],       // 春分
+        [4, 29], [5, 3], [5, 4], [5, 5], // 黄金周
+        [7, 15], [7, 16], [7, 17], // 海之日
+        [8, 11], [8, 12], [8, 13], [8, 14], [8, 15], // 山之日与盂兰盆节
+        [9, 15], [9, 16], [9, 21], [9, 22], [9, 23], // 敬老日 / 秋分
+        [10, 12], [10, 13], [10, 14], // 体育之日
+        [11, 3], [11, 23],      // 文化之日 / 勤劳感谢之日
+        [12, 28], [12, 29], [12, 30], [12, 31] // 年末休假
+      ];
+      return holidays.some(h => h[0] === m && h[1] === d);
+    }
+
+    // Schedule Profiles for each character across different scenarios
+    const ROUTINE_PROFILES = {
+      // 1. 平日学园授课 (08:30 - 15:30)
+      weekday_school: {
+        tomori: { ox: 710, oy: 230, loc: '羽丘女子学园 (高一理科教室)', act: '在窗边翻开笔记本，看着走廊外银杏树叶与晨光', quote: '「就算迷茫……哪怕只能收集一片完整的落叶，我也想继续唱下去。」' },
+        anon: { ox: 760, oy: 230, loc: '羽丘女子学园 (高一走廊)', act: '课间拉着同班同学热络闲聊，悄悄揉着昨晚被吉他新弦磨红的手指', quote: '「今天的晨光自然光线超棒！午休一定要叫上小灯去天台！」' },
+        sakiko: { ox: 710, oy: 280, loc: '羽丘女子学园 (中庭石阶)', act: '避风阶梯处清点课业便签与乐谱小样，神情沉静克制', quote: '「在课堂与兼职的间隙，时间容不得半分浪费。」' },
+        umiri: { ox: 780, oy: 270, loc: '羽丘女子学园 (高一B班后排)', act: '课桌前核对今日涉谷与新宿两家外部乐队的试音交接时间表', quote: '「两场助演，下午四点与六点十五分，时间精确到分钟。」' },
+        nyamu: { ox: 810, oy: 250, loc: '羽丘女子学园 (高一教室窗台)', act: '整理书包补觉，指尖轻敲桌面默背新视频的网感文案脚本', quote: '「下课后还得赶回工作室看昨晚视频的完播率与点赞曲线呢……」' },
+        soyo: { ox: 880, oy: 780, loc: '月之森女子学园 (高一文学部走廊)', act: '端坐于高挑欧式回廊窗侧阅读文库本，神情温婉端庄而带着一丝疏离', quote: '「月之森的走廊一直很安静……安静得让人偶尔会有些恍惚。」' },
+        mutsumi: { ox: 930, oy: 830, loc: '月之森女子学园 (园艺部温室角)', act: '晨间上课前照料校园角落的微型盆栽，指尖轻触带着朝露的绿叶', quote: '「……植物，在安静地呼吸。」' },
+        taki: { ox: 540, oy: 760, loc: '花咲川女子学园 (高一B班教室)', act: '伏在课桌前演算课后练习题，草稿纸边缘密密麻麻标着鼓点切分拍', quote: '「下课之后必须在三点半前赶到RiNG，今天的吧台进料不能耽误。」' },
+        rana: { ox: 600, oy: 800, loc: '花咲川女子学园 (后山斜坡樱树荫)', act: '抱着吉他包蜷缩在坡道背阴长椅上打哈欠，等待放学铃声', quote: '「……困。想吃抹茶面包。」' },
+        uika: { ox: 1240, oy: 750, loc: '电视台艺能演播大楼 (晨间候播室)', act: '晨间电台节目直播前开嗓试音，神情纯美温润，望着窗外的天空', quote: '「无论在多早的晨曦中，歌声都会传递到注视着它的人心里。」' },
+        mana: { ox: 1280, oy: 780, loc: '电视台艺能演播大楼 (化妆更衣间)', act: '元气满满地核对晨间主持台本，为初华准备好温热的蜂蜜水', quote: '「今天的sumimi也是活力满格！初华酱，我们一起加油～！」' }
+      },
+
+      // 2. 放学黄昏集结 (15:30 - 18:30) - 经典 17:30 JST 剧情切片
+      twilight_ring: {
+        tomori: { ox: 440, oy: 410, loc: 'Livehouse RiNG (地下排练室)', act: '放学后步行抵达RiNG，安静喝着温水温习歌词笔记本，与素世分食热红薯', quote: '「一生……就算只是一生中的今天，我也想把胸口的心跳唱给大家听。」' },
+        anon: { ox: 470, oy: 360, loc: 'Livehouse RiNG (更衣区与调音台)', act: '从包里掏出新买的日产琴弦，一边揉着酸痛的左肩一边准备换弦', quote: '「今天的英语随堂考太折磨啦！不过等会儿排练我可绝不会掉链子！」' },
+        soyo: { ox: 510, oy: 420, loc: 'Livehouse RiNG (休息区沙发)', act: '从地下百货顺路购买了刚出炉的烤红薯分给大家，拿斜口钳帮爱音剪去多余吉他弦头', quote: '「天冷了大家多吃点热乎的。爱音酱，换弦要小心手哦。」' },
+        taki: { ox: 430, oy: 370, loc: 'Livehouse RiNG (架子鼓与吧台)', act: '系着围裙清点吧台咖啡豆，调试底排麦克风线路与反送音箱', quote: '「爱音你弦换快点，乐奈别睡了，五分钟后开始过今天的第一段主歌！」' },
+        rana: { ox: 480, oy: 430, loc: 'Livehouse RiNG (沙发角落)', act: '蜷在沙发上揉眼睛等音箱通电，手边放着空抹茶芭菲玻璃杯', quote: '「……抹茶，吃饱了。吉他，想弹了。」' },
+        sakiko: { ox: 1040, oy: 390, loc: '电车转乘站台 (山手线与西武线)', act: '结束羽丘打扫后在站台与初华会面，分食刚出炉的热肉包并核对乐谱小样', quote: '「初华，给。第二版的管弦配器总谱我已经改好了，周末排练务必到位。」' },
+        uika: { ox: 1080, oy: 390, loc: '电车转乘站台 (候车处)', act: '结束电台通告乘车前来，将便利店买好的肉包递给祥子，并递上一罐热茶', quote: '「祥酱，不要总是在电车上看谱子……身体才是最重要的。」' },
+        mutsumi: { ox: 300, oy: 800, loc: '若叶家温室花园', act: '放学后独自一人在温室中为黄瓜秧苗修剪老叶，给花草细致浇水', quote: '「……黄瓜，长得很好。安静的声音，在发芽。」' },
+        umiri: { ox: 820, oy: 560, loc: '环状铁道 (山手线电车车厢内)', act: '结束涩谷商业吉他助演，手提五弦贝斯立在车厢门边，核算晚间交接时间', quote: '「第一场收工。山手线内环四站，距离晚间交接还有十四分钟。」' },
+        nyamu: { ox: 1260, oy: 250, loc: '喵梦短视频工作室', act: '在环形补光灯前调试手机画质，规划今晚短视频发布文案', quote: '「今天的打光质感简直无敌！今晚八点发布，播放量绝对要破十万！」' },
+        mana: { ox: 1260, oy: 770, loc: 'sumimi 经纪公司休息室', act: '结束电台连轴录制，为初华准备好明日通告的服装与备用润喉糖', quote: '「初华酱路上小心哦！明天上午还有电视台直播，今晚要好好睡个饱觉～！」' }
+      },
+
+      // 3. 深夜值班与归宿 (21:00 - 24:00)
+      night_quiet: {
+        tomori: { ox: 460, oy: 580, loc: '神田川天桥与归家阶梯', act: '排练结束步行返家，在天桥台阶上短暂停步感受深秋夜风', quote: '「风吹过来的时候，感觉心里的声音变得更清晰了。」' },
+        anon: { ox: 500, oy: 330, loc: '池袋西口归家步道', act: '背着吉他哼着歌快步走过亮着霓虹灯的商业街，给小灯发晚安信息', quote: '「今天大家都练得很顺！回家敷个面膜早点睡咯～」' },
+        soyo: { ox: 880, oy: 780, loc: '高层公寓客餐厅 · 红茶角', act: '洗去一身疲惫，用精致骨瓷杯抿了一口热红茶，望着窗外万家灯火', quote: '「能像这样坐在一起吃个热红薯，其实……就已经很好了呢。」' },
+        taki: { ox: 440, oy: 380, loc: 'Livehouse RiNG (打烊后吧台)', act: '冲洗干净浓缩咖啡机手柄，拔掉所有调音台总电源并反锁侧门', quote: '「今天吧台盘点无误。大家都平安回去了就好。」' },
+        rana: { ox: 490, oy: 470, loc: '归途都电荒川线长椅', act: '抱着沉重的琴盒靠在车窗边打着轻微的呼噜，嘴角带着满足的浅笑', quote: '「……呼噜……弦很亮……」' },
+        sakiko: { ox: 940, oy: 290, loc: '客服呼叫中心 (夜班工位)', act: '戴着耳麦端坐工位接听热线，趁轮休间隙借着屏幕微光校对第三乐章总谱', quote: '「您好，这里是客服中心……即使身处暗夜，指尖敲下的也是通往未来的符杠。」' },
+        uika: { ox: 1250, oy: 760, loc: 'sumimi 艺能寓所卧室', act: '在窗前静静熨烫好明日的演出礼服，合拢日程本关灯备战', quote: '「祥酱，愿今夜的星光能够穿透玻璃，照亮你手里的琴谱。」' },
+        mutsumi: { ox: 300, oy: 800, loc: '若叶家主卧外庭院', act: '洗漱完毕坐在窗沿前看着月色下的庭院温室，床头放着静默的吉他', quote: '「……我和Mortis，明天也会继续把声音弹下去。」' },
+        umiri: { ox: 790, oy: 540, loc: '涩谷站外地下通道', act: '与最后一位乐队队长利落签收劳务收据，将五弦贝斯平稳背在肩上乘车', quote: '「今日第三十支乐队支援完毕。耗时七小时十二分，收工。」' },
+        nyamu: { ox: 1260, oy: 250, loc: '工作室剪辑台', act: '紧盯屏幕时间线完成调色与字幕压制，点击上传并长舒一口气', quote: '「搞定收工！敷一片最贵的熬夜修护面膜，明天起来直接看播放榜！」' },
+        mana: { ox: 1270, oy: 770, loc: '寓所起居室', act: '躺在沙发上敷着热眼罩，听着初华录制的声音demo安稳入睡', quote: '「初华酱的声音真的好治愈呀……明天也要元气满满地奔跑！」' }
+      },
+
+      // 4. 周末与法定节假日白天 (10:00 - 18:00) - 祥子生计多元拓展版！
+      weekend_live: {
+        tomori: { ox: 460, oy: 580, loc: '神田川天桥与水岸步道', act: '沿着清凉河岸漫步，俯身捡拾被水流冲刷平整的灰白鹅卵石与完整银杏叶', quote: '「周末的河岸边，水流的声音很清脆……小石头也安安静静的。」' },
+        anon: { ox: 820, oy: 420, loc: '涩谷乐器商圈 · 乐器行', act: '在乐器行试弹新款粉色效果器，认真挑选适合下场演出的吉他背带', quote: '「周末的涉谷果然最热闹啦！今天一定要挑到最称心如意的吉他背带！」' },
+        soyo: { ox: 910, oy: 850, loc: '高层公寓起居室 · 茶仓角', act: '周末午后慢条斯理冲泡当季大吉岭红茶，用专用软布细致擦拭五弦贝斯琴体', quote: '「不用去学校的下午，慢条斯理地把琴擦拭干净，心里总会安定一些。」' },
+        taki: { ox: 480, oy: 390, loc: 'Livehouse RiNG (周末午间排演场)', act: '在吧台与调音师一起调试周末地下演出的地排线与反送音箱抗阻', quote: '「周末的排期全满，音箱音量都给我稳住，别在开场前出岔子。」' },
+        rana: { ox: 430, oy: 360, loc: '宇宙堂甜品屋 / RiNG休息长椅', act: '大口品尝双倍抹茶芭菲与红豆糯米团，琴盒随意靠在旁边长椅上', quote: '「……抹茶，好吃。下午，还要弹琴。」' },
+        sakiko: { ox: 880, oy: 680, loc: '目黑区学龄琴童家教寓所 / 录音配器工坊', act: '指导名门学龄琴童肖邦夜曲与贝多芬奏鸣曲指法；工位边放着初华介绍的商业弦乐总谱，以扎实音乐素养换取体面报酬', quote: '「触键要更加果决沉稳……音乐不会背叛投入的专注。——这是以自己双手的琴音换取自立的尊严。」' },
+        uika: { ox: 1260, oy: 770, loc: '电视台艺能演播大楼 (周末特别专场)', act: '录制周末音乐黄金档双人合唱，趁候场间隙在顶楼天台仰望东京云层', quote: '「站在聚光灯下，只要闭上眼睛，就能听见属于我们的那份旋律。」' },
+        mana: { ox: 1220, oy: 740, loc: 'sumimi 舞蹈排练厅', act: '与伴舞团队挥汗如雨地排练新单曲主打舞步，大声为初华打气', quote: '「一二三四、二二三四！sumimi 的周末现场绝对要燃炸全场～！」' },
+        mutsumi: { ox: 300, oy: 800, loc: '若叶家温室花园', act: '周末全天在温室中为花木浇水、换盆并修剪黄瓜枯叶，神情安宁专注', quote: '「……今天阳光很好，黄瓜的新藤又抽出了两寸。」' },
+        umiri: { ox: 1040, oy: 440, loc: '涉谷专业地下排练棚', act: '一天内奔波于三支不同风格的商业地下乐队之间，精准完成贝斯助演', quote: '「第二场曲目结束，十分钟后转场第三个棚，契约如约履行。」' },
+        nyamu: { ox: 1260, oy: 250, loc: '喵梦短视频工作室', act: '架设环形补光灯录制美妆测评与穿搭视频，争分夺秒剪辑周末爆款流量片', quote: '「周末黄金流量档期绝不能错过！今天的点赞量一定要冲上新高！」' }
+      }
+    };
+
+    function applyRoutine(scenarioKey) {
+      const scenario = ROUTINE_PROFILES[scenarioKey];
+      if (!scenario) return;
+
+      CHARACTERS.forEach(c => {
+        const item = scenario[c.id];
+        if (item) {
+          c.ox = item.ox;
+          c.oy = item.oy;
+          c.currentLocation = item.loc;
+          c.currentAction = item.act;
+          if (item.quote) c.quote = item.quote;
+        }
+      });
+
+      // Notify Sakiko audio system of location shift if applicable
+      if (typeof SAKIKO_AUDIO_SYSTEM !== 'undefined' && SAKIKO_AUDIO_SYSTEM.checkLocationChange) {
+        SAKIKO_AUDIO_SYSTEM.checkLocationChange();
+      }
+    }
 
     function updateJSTClock() {
       const timeSpan = document.getElementById('timeText');
       if (!timeSpan) return;
 
-      if (clockMode === 'story') {
-        timeSpan.textContent = '周五 17:30 JST (放学黄昏·推演点)';
+      if (clockMode === 'weekday_school') {
+        timeSpan.textContent = '平日 10:30 JST (学园授课·全员在校)';
+        applyRoutine('weekday_school');
+        return;
+      }
+      if (clockMode === 'twilight_ring') {
+        timeSpan.textContent = '放学 17:30 JST (黄昏集结·RiNG换弦)';
+        applyRoutine('twilight_ring');
+        return;
+      }
+      if (clockMode === 'weekend_live') {
+        timeSpan.textContent = '周末 14:00 JST (假期休闲·祥子家教配器)';
+        applyRoutine('weekend_live');
         return;
       }
 
+      // 'realtime' mode: dynamic auto-detection
       const now = new Date();
-      // Format as Tokyo time (Asia/Tokyo, UTC+9)
       const formatter = new Intl.DateTimeFormat('zh-CN', {
         timeZone: 'Asia/Tokyo',
         weekday: 'short',
@@ -1963,32 +2105,356 @@
         hour12: false
       });
       const jstHour = parseInt(hourFormatter.format(now), 10);
+      const dayFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Tokyo',
+        weekday: 'short'
+      });
+      const dayStr = dayFormatter.format(now);
+      const isWeekend = (dayStr === 'Sat' || dayStr === 'Sun' || isJapaneseHoliday(now));
 
-      let period = '夜间时段';
-      if (jstHour >= 5 && jstHour < 8) period = '晨间通勤';
-      else if (jstHour >= 8 && jstHour < 12) period = '学园上午';
-      else if (jstHour >= 12 && jstHour < 13) period = '午休就餐';
-      else if (jstHour >= 13 && jstHour < 16) period = '学园下午';
-      else if (jstHour >= 16 && jstHour < 18) period = '放学黄昏';
-      else if (jstHour >= 18 && jstHour < 21) period = '晚间排练';
-      else if (jstHour >= 21 && jstHour < 24) period = '夜班值勤/校对';
-      else period = '深夜静谧';
+      let periodLabel = '';
+      let scenario = 'twilight_ring';
 
-      timeSpan.textContent = parts + ' JST (' + period + ')';
+      if (isWeekend) {
+        if (jstHour >= 0 && jstHour < 7) {
+          periodLabel = '周末深夜·安歇就寝';
+          scenario = 'night_quiet';
+        } else if (jstHour >= 7 && jstHour < 18) {
+          periodLabel = '周末假期·外出与祥子家教配器';
+          scenario = 'weekend_live';
+        } else {
+          periodLabel = '周末夜晚·排练与自媒体制作';
+          scenario = 'night_quiet';
+        }
+      } else {
+        if (jstHour >= 0 && jstHour < 7) {
+          periodLabel = '深夜静谧·独处备战';
+          scenario = 'night_quiet';
+        } else if (jstHour >= 7 && jstHour < 9) {
+          periodLabel = '晨间通勤·电车通学';
+          scenario = 'weekday_school';
+        } else if (jstHour >= 9 && jstHour < 15) {
+          periodLabel = '平日学园·课业授课';
+          scenario = 'weekday_school';
+        } else if (jstHour >= 15 && jstHour < 19) {
+          periodLabel = '放学黄昏·RiNG排练集结';
+          scenario = 'twilight_ring';
+        } else {
+          periodLabel = '夜晚时段·合练收尾与客服值勤';
+          scenario = 'night_quiet';
+        }
+      }
+
+      applyRoutine(scenario);
+      timeSpan.textContent = parts + ' JST (' + periodLabel + ')';
     }
 
-    // Toggle mode on click
-    const timeIndicator = document.getElementById('timeIndicator');
-    if (timeIndicator) {
-      timeIndicator.addEventListener('click', () => {
-        clockMode = (clockMode === 'realtime') ? 'story' : 'realtime';
-        updateJSTClock();
-        showAudioToast(clockMode === 'realtime' ? '⏱️ 已切换为：东京真实时钟 (实时流逝)' : '📖 已切换为：剧情切片时间 (17:30 JST)');
+    
+    // ==========================================
+    // TOKYO REALTIME WEATHER & PRECIPITATION ENGINE (东京气象与动态光影引擎)
+    // ==========================================
+    let currentWeather = 'stars'; // 'stars', 'rain', 'cloudy', 'clear'
+    let weatherTemp = '17°C';
+    let weatherLabel = '澄澈星原';
+
+    // Rain Particles
+    const RAIN_DROPS = [];
+    for (let i = 0; i < 90; i++) {
+      RAIN_DROPS.push({
+        x: Math.random() * 2000 - 200,
+        y: Math.random() * 1200,
+        len: 12 + Math.random() * 10,
+        speed: 14 + Math.random() * 8,
+        alpha: 0.25 + Math.random() * 0.35
       });
     }
 
+    // River Water Ripples (神田川落雨波纹)
+    const RIVER_RIPPLES = [];
+    for (let i = 0; i < 18; i++) {
+      RIVER_RIPPLES.push({
+        x: 200 + Math.random() * 1300,
+        y: 600 + Math.random() * 35,
+        r: Math.random() * 12,
+        maxR: 10 + Math.random() * 14,
+        alpha: Math.random()
+      });
+    }
+
+    // Starfield Points (祥子星原微光粒子)
+    const STAR_POINTS = [];
+    for (let i = 0; i < 65; i++) {
+      STAR_POINTS.push({
+        x: Math.random() * 1800,
+        y: Math.random() * 520, // Upper sky
+        baseR: 0.8 + Math.random() * 1.6,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.02 + Math.random() * 0.03
+      });
+    }
+
+    function updateWeatherDisplay() {
+      const iconEl = document.getElementById('weatherIcon');
+      const textEl = document.getElementById('weatherText');
+      if (!iconEl || !textEl) return;
+
+      const icons = {
+        stars: '✨',
+        rain: '🌧️',
+        clear: '☀️',
+        cloudy: '☁️'
+      };
+      iconEl.textContent = icons[currentWeather] || '✨';
+      textEl.textContent = `东京 ${weatherTemp} · ${weatherLabel}`;
+    }
+
+    // Fetch live weather from public meteorological API (client-side in browser)
+    async function fetchTokyoLiveWeather() {
+      try {
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.73&longitude=139.71&current_weather=true');
+        if (!res.ok) throw new Error('Network error');
+        const data = await res.json();
+        if (data && data.current_weather) {
+          const temp = Math.round(data.current_weather.temperature);
+          weatherTemp = `${temp}°C`;
+          const code = data.current_weather.weathercode;
+          const isDay = data.current_weather.is_day === 1;
+
+          // WMO weather code parsing
+          if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) {
+            currentWeather = 'rain';
+            weatherLabel = '神田川微雨';
+          } else if ([1, 2, 3].includes(code)) {
+            currentWeather = 'cloudy';
+            weatherLabel = '池袋暮云';
+          } else {
+            currentWeather = isDay ? 'clear' : 'stars';
+            weatherLabel = isDay ? '秋阳晴朗' : '澄澈星原';
+          }
+          updateWeatherDisplay();
+        }
+      } catch (e) {
+        // Fallback to canon seasonal Tokyo weather (10月深秋夜间 17°C 澄澈星空)
+        const hour = new Date().getHours();
+        const isNight = hour >= 18 || hour < 6;
+        currentWeather = isNight ? 'stars' : 'clear';
+        weatherTemp = isNight ? '17°C' : '22°C';
+        weatherLabel = isNight ? '澄澈星原' : '初秋暖阳';
+        updateWeatherDisplay();
+      }
+    }
+
+    // World-space weather elements (scales with camera pan/zoom)
+    function drawWeatherWorldLayer() {
+      if (currentWeather === 'rain') {
+        // Falling rain streaks
+        ctx.strokeStyle = 'rgba(160, 210, 255, 0.45)';
+        ctx.lineWidth = 1.2;
+        RAIN_DROPS.forEach(p => {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x + 3, p.y + p.len);
+          ctx.stroke();
+
+          p.x += 1.8;
+          p.y += p.speed;
+          if (p.y > 1100) {
+            p.y = -20;
+            p.x = Math.random() * 1900 - 100;
+          }
+        });
+
+        // Water ripples on Kanda river
+        RIVER_RIPPLES.forEach(rp => {
+          ctx.beginPath();
+          ctx.ellipse(rp.x, rp.y, rp.r * 1.8, rp.r * 0.6, 0, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(180, 225, 255, ${rp.alpha * 0.4})`;
+          ctx.lineWidth = 1.1;
+          ctx.stroke();
+
+          rp.r += 0.35;
+          rp.alpha -= 0.02;
+          if (rp.alpha <= 0) {
+            rp.r = 1;
+            rp.maxR = 8 + Math.random() * 12;
+            rp.alpha = 0.5 + Math.random() * 0.4;
+            rp.x = 150 + Math.random() * 1400;
+            rp.y = 595 + Math.random() * 40;
+          }
+        });
+      } else if (currentWeather === 'stars') {
+        // Twinkling Starfield in Upper Sky
+        STAR_POINTS.forEach(st => {
+          const alpha = 0.3 + 0.6 * (Math.sin(frame * st.speed + st.phase) * 0.5 + 0.5);
+          ctx.beginPath();
+          ctx.arc(st.x, st.y, st.baseR, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(235, 245, 255, ${alpha})`;
+          ctx.fill();
+
+          // Soft star halo
+          if (st.baseR > 1.5 && alpha > 0.6) {
+            ctx.beginPath();
+            ctx.arc(st.x, st.y, st.baseR * 3, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(212, 175, 55, ${alpha * 0.15})`;
+            ctx.fill();
+          }
+        });
+      }
+    }
+
+    // Screen-space atmosphere overlay (fixed viewport overlay)
+    function drawWeatherScreenOverlay(w, h) {
+      if (currentWeather === 'rain') {
+        // Subtle cool rainy vignette
+        const grad = ctx.createRadialGradient(w/2, h/2, w * 0.2, w/2, h/2, w * 0.7);
+        grad.addColorStop(0, 'rgba(15, 25, 45, 0)');
+        grad.addColorStop(1, 'rgba(12, 18, 32, 0.32)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+      } else if (currentWeather === 'stars') {
+        // Golden starlight subtle ambient hue
+        const grad = ctx.createRadialGradient(w * 0.5, h * 0.2, 50, w * 0.5, h * 0.2, w * 0.6);
+        grad.addColorStop(0, 'rgba(212, 175, 55, 0.04)');
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+      }
+    }
+
+    // ==========================================
+    // STEALTH DEVELOPER & DEBUG GATEWAY (隐藏式开发者与调试网关)
+    // 普通访客直接访问时：时间绝对客观流逝，不可点击、不可篡改
+    // 供 zcode / 开发者专属调试的三大入口：
+    // 1. URL参数：访问 index.html?debug=1 或 #debug
+    // 2. 快捷键：在网页任意处按下 ` 键（键盘左上角波浪键）
+    // 3. 控制台 API：window.__SANDBOX_DEV__.setMode('weekday_school') 等
+    // ==========================================
+    let isDebugMode = false;
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('debug') === '1' || window.location.hash === '#debug') {
+      enableDebugMode(true);
+    }
+
+    function enableDebugMode(silent = false) {
+      if (isDebugMode) return;
+      isDebugMode = true;
+
+      // 允许点击时间胶囊轮换
+      const timeIndicator = document.getElementById('timeIndicator');
+      if (timeIndicator) {
+        timeIndicator.style.cursor = 'pointer';
+        timeIndicator.title = '[DEBUG模式已激活] 点击轮换时空切片：实时东京时钟 ➔ 平日学园在校 ➔ 放学集结(17:30) ➔ 周末假期漫游';
+        timeIndicator.onclick = cycleDebugMode;
+      }
+
+      // 注入微型开发者浮动面板
+      if (!document.getElementById('devControlPanel')) {
+        const panel = document.createElement('div');
+        panel.id = 'devControlPanel';
+        panel.style.cssText = 'position:fixed; bottom:70px; right:16px; z-index:9999; background:rgba(18,22,34,0.92); border:1px solid #d4af37; border-radius:8px; padding:8px 12px; display:flex; gap:6px; align-items:center; box-shadow:0 4px 20px rgba(0,0,0,0.6); backdrop-filter:blur(10px); font-size:11px;';
+        panel.innerHTML = `
+          <span style="color:#d4af37; font-weight:800; letter-spacing:0.5px;">[DEV]</span>
+          <button style="background:#2a334a; color:#fff; border:1px solid #4a5a7e; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;" onclick="window.__SANDBOX_DEV__.setMode('realtime')">实时JST</button>
+          <button style="background:#2a334a; color:#38bdf8; border:1px solid #38bdf855; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;" onclick="window.__SANDBOX_DEV__.setMode('weekday_school')">平日在校</button>
+          <button style="background:#2a334a; color:#5b9bd5; border:1px solid #5b9bd555; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;" onclick="window.__SANDBOX_DEV__.setMode('twilight_ring')">放学集结</button>
+          <button style="background:#2a334a; color:#a78bfa; border:1px solid #a78bfa55; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;" onclick="window.__SANDBOX_DEV__.setMode('weekend_live')">周末漫游</button>
+          <span style="color:#4a5a7e; margin:0 2px;">|</span>
+          <button style="background:#1e3a5f; color:#60a5fa; border:1px solid #60a5fa55; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;" onclick="window.__SANDBOX_DEV__.setWeather('rain')">🌧️雨景</button>
+          <button style="background:#3a2e1e; color:#facc15; border:1px solid #facc1555; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;" onclick="window.__SANDBOX_DEV__.setWeather('stars')">✨星原</button>
+          <span style="color:#8892b0; font-size:10px; margin-left:4px; cursor:pointer;" onclick="this.parentElement.remove()" title="关闭面板">✕</span>
+        `;
+        document.body.appendChild(panel);
+      }
+
+      if (!silent) {
+        showAudioToast('🛠️ 开发者调试模式已激活 (按 ~ 键可关闭)');
+      }
+    }
+
+    function disableDebugMode() {
+      isDebugMode = false;
+      clockMode = 'realtime';
+      const timeIndicator = document.getElementById('timeIndicator');
+      if (timeIndicator) {
+        timeIndicator.style.cursor = 'default';
+        timeIndicator.title = '';
+        timeIndicator.onclick = null;
+      }
+      const panel = document.getElementById('devControlPanel');
+      if (panel) panel.remove();
+      updateJSTClock();
+      showAudioToast('🔒 已退出调试模式，恢复客观时间流');
+    }
+
+    function cycleDebugMode() {
+      if (!isDebugMode) return;
+      if (clockMode === 'realtime') {
+        window.__SANDBOX_DEV__.setMode('weekday_school');
+      } else if (clockMode === 'weekday_school') {
+        window.__SANDBOX_DEV__.setMode('twilight_ring');
+      } else if (clockMode === 'twilight_ring') {
+        window.__SANDBOX_DEV__.setMode('weekend_live');
+      } else {
+        window.__SANDBOX_DEV__.setMode('realtime');
+      }
+    }
+
+    // 快捷键激活/关闭：按 `（波浪号键）
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '`' || e.key === '~') {
+        if (isDebugMode) {
+          disableDebugMode();
+        } else {
+          enableDebugMode();
+        }
+      }
+    });
+
+    // 暴露给 zcode / DevTools 控制台的全局专属调试对象
+    window.__SANDBOX_DEV__ = {
+      enable: () => enableDebugMode(false),
+      disable: () => disableDebugMode(),
+      setWeather: (wType) => {
+        if (['stars', 'rain', 'clear', 'cloudy'].includes(wType)) {
+          currentWeather = wType;
+          if (wType === 'rain') { weatherLabel = '神田川微雨'; weatherTemp = '16°C'; }
+          else if (wType === 'stars') { weatherLabel = '澄澈星原'; weatherTemp = '17°C'; }
+          else if (wType === 'clear') { weatherLabel = '初秋晴朗'; weatherTemp = '21°C'; }
+          else if (wType === 'cloudy') { weatherLabel = '暮色浮云'; weatherTemp = '18°C'; }
+          updateWeatherDisplay();
+          showAudioToast('🌦️ 气象已切换：' + weatherLabel);
+        }
+      },
+      setMode: (mode) => {
+        enableDebugMode(true);
+        if (['realtime', 'weekday_school', 'twilight_ring', 'night_quiet', 'weekend_live'].includes(mode)) {
+          clockMode = mode;
+          const modeLabels = {
+            realtime: '⏱️ 实时东京时钟',
+            weekday_school: '🏫 平日学园在校 (10:30 JST)',
+            twilight_ring: '🎸 放学黄昏集结 (17:30 JST)',
+            night_quiet: '🌙 深夜静谧归宿 (22:00 JST)',
+            weekend_live: '🎹 周末假期漫游 (祥子钢琴家教/配器)'
+          };
+          showAudioToast('已切至：' + modeLabels[mode]);
+          updateJSTClock();
+        } else {
+          console.warn('[DEV] 未知模式，可用值：realtime, weekday_school, twilight_ring, night_quiet, weekend_live');
+        }
+      },
+      getMode: () => clockMode,
+      getCharacters: () => CHARACTERS.map(c => ({ id: c.id, name: c.name, location: c.currentLocation, action: c.currentAction, x: c.ox, y: c.oy })),
+      getLandmarks: () => KEY_LANDMARKS,
+      triggerVoice: () => {
+        if (typeof SAKIKO_AUDIO_SYSTEM !== 'undefined') {
+          SAKIKO_AUDIO_SYSTEM.playAudio('manual_drag');
+        }
+      }
+    };
+
     setInterval(updateJSTClock, 1000);
     updateJSTClock();
+
 
     // Init
     renderRoster();
