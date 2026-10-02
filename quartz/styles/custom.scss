@@ -21,25 +21,31 @@ body:has(.sandbox-home) {
 
   .sandbox-wiki-entry {
     position: fixed;
-    top: 14px;
-    right: 16px;
+    left: 24px;
+    bottom: 76px;
     z-index: 1000;
+    opacity: 0.62;
+    transition: opacity 0.25s ease;
+
+    &:hover {
+      opacity: 1;
+    }
 
     a {
       display: inline-block;
-      padding: 7px 14px;
+      padding: 5px 12px;
       border-radius: 8px;
-      font-size: 0.85rem;
+      font-size: 0.78rem;
       text-decoration: none;
-      color: rgba(255, 255, 255, 0.85);
-      background: rgba(20, 22, 34, 0.72);
-      border: 1px solid rgba(167, 139, 250, 0.35);
+      color: rgba(255, 255, 255, 0.66);
+      background: rgba(20, 22, 34, 0.55);
+      border: 1px solid rgba(167, 139, 250, 0.22);
       backdrop-filter: blur(6px);
       transition: border-color 0.2s ease, color 0.2s ease;
     }
 
     a:hover {
-      border-color: rgba(167, 139, 250, 0.8);
+      border-color: rgba(167, 139, 250, 0.7);
       color: #a78bfa;
     }
   }
