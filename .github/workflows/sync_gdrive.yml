@@ -18,6 +18,8 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,14 +31,29 @@ jobs:
         run: |
           python3 scripts/sync_gdrive.py
       - name: Commit & Push if Changes Detected
+        id: commit
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Bot"
           git add content/
           if ! git diff --staged --quiet; then
-            # 提交信息不得含 [skip ci]：否则会压制 deploy.yml 的 push 触发，网站不更新
+            # 提交信息不得含 [skip ci]；同时注意：GITHUB_TOKEN 的 push 不会触发
+            # deploy.yml 的 push 事件（GitHub 防循环机制），因此部署由下方
+            # 的 deploy 作业以 workflow_call 方式在同一运行内链式完成。
             git commit -m "sync: auto-sync updated documents from Google Drive"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
+
+  deploy:
+    needs: sync
+    if: needs.sync.outputs.changed == 'true'
+    uses: ./.github/workflows/deploy.yml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
 # 注册触碰: 修复 GitHub 偶发的 workflow 未注册问题
