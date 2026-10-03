@@ -81,6 +81,33 @@ def sync_doc(doc_id: str, target_path: str) -> bool:
 # 将主观切片增量追加到对应成员记忆档案的「4. 主世界历史与日常演进纪要」。
 # 追加式账本：已分流切片不重复处理，不支持追溯修改（会告警）。
 # ─────────────────────────────────────────────────────────────
+# 编年史卷索引文档：内容为「YYYY-MM: <Drive文档ID>」行，管道先读索引、
+# 再按索引动态发现并同步所有卷。该 ID 配置后，跨月由祥子在索引文档中
+# 自行追加一行即可，无需任何仓库侧操作。
+VOLUME_INDEX_DOC_ID = ""
+
+
+def load_volume_index() -> dict:
+    """读取卷索引文档，返回 {月份: doc_id}；索引未配置或不可达时返回空。"""
+    if not VOLUME_INDEX_DOC_ID:
+        return {}
+    try:
+        url = f"https://docs.google.com/document/d/{VOLUME_INDEX_DOC_ID}/export?format=txt"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            text = resp.read().decode("utf-8-sig", errors="replace")
+    except Exception as e:
+        print(f"[volumes] 卷索引读取失败（沿用既有卷映射）: {e}", file=sys.stderr)
+        return {}
+    volumes = {}
+    for line in text.splitlines():
+        m = re.match(r"^\s*(\d{4}-\d{2})\s*[:：]\s*([A-Za-z0-9_-]{20,})", line)
+        if m:
+            volumes[m.group(1)] = m.group(2)
+    print(f"[volumes] 索引发现 {len(volumes)} 卷: {sorted(volumes)}")
+    return volumes
+
+
 MEMORIES_DIR = os.path.join("content", "04-成员记忆档案")
 DEMUX_SECTION = "## 4. 主世界历史与日常演进纪要"
 SLICE_HEADER = re.compile(r"^#{2,4}\s*\*{0,2}【(?P<label>[^】]+)】\*{0,2}\s*$", re.M)
@@ -168,8 +195,12 @@ def demux_chronicle_to_profiles() -> None:
 
 
 if __name__ == "__main__":
-    print(f"Starting sync of {len(DOCS_MAP)} documents from Google Drive...")
-    failures = [(d, p) for d, p in DOCS_MAP.items() if not sync_doc(d, p)]
+    print(f"Starting sync of {len(all_docs)} documents from Google Drive...")
+    volume_map = load_volume_index()
+    all_docs = dict(DOCS_MAP)
+    for month, doc_id in volume_map.items():
+        all_docs[doc_id] = f"content/02-主世界编年史/主世界事件记录与编年史_{month}卷.md"
+    failures = [(d, p) for d, p in all_docs.items() if not sync_doc(d, p)]
     if failures:
         print(f"\n{len(failures)}/{len(DOCS_MAP)} documents FAILED to sync:")
         for d, p in failures:
