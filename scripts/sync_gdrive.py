@@ -87,7 +87,7 @@ def sync_doc(doc_id: str, target_path: str) -> bool:
 # 编年史卷索引文档：内容为「YYYY-MM: <Drive文档ID>」行，管道先读索引、
 # 再按索引动态发现并同步所有卷。该 ID 配置后，跨月由祥子在索引文档中
 # 自行追加一行即可，无需任何仓库侧操作。
-VOLUME_INDEX_DOC_ID = ""
+VOLUME_INDEX_DOC_ID = "1g_EZcSdyiZeRY_BAkJYnESBTy8E1IThea89NPqc_l7A"
 
 
 def load_volume_index() -> dict:
@@ -259,7 +259,8 @@ if __name__ == "__main__":
     volume_map = load_volume_index()
     all_docs = dict(DOCS_MAP)
     for month, doc_id in volume_map.items():
-        all_docs[doc_id] = f"content/02-主世界编年史/主世界事件记录与编年史_{month}卷.md"
+        year, mon = month.split("-")
+        all_docs[doc_id] = f"content/02-主世界编年史/主世界事件记录与编年史_{year}年{mon}月卷.md"
     print(f"Starting sync of {len(all_docs)} documents from Google Drive...")
     failures = [(d, p) for d, p in all_docs.items() if not sync_doc(d, p)]
     if failures:
