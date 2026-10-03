@@ -87,6 +87,7 @@ export default (() => {
         <meta name="generator" content="Quartz" />
         <meta name="build-sha" content="BUILD_SHA_PLACEHOLDER" />
         <script key="live-update" src={joinSegments(baseDir, "static/js/live-update.js")} defer />
+        <script key="time-gate" src={joinSegments(baseDir, "static/js/time-gate.js")} defer />
 
         {css.map((resource) => CSSResourceToStyleElement(resource, true))}
         {js

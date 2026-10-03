@@ -66,3 +66,50 @@ body:has(.sandbox-home) {
     }
   }
 }
+
+// ── 时间锁（Time-Gating）：未来切片毛玻璃遮罩 ──
+.time-gate {
+  position: relative;
+
+  > *:not(.time-gate-badge) {
+    filter: blur(6px) saturate(0.75);
+    opacity: 0.32;
+    pointer-events: none;
+    user-select: none;
+    transition: filter 1.2s ease, opacity 1.2s ease;
+  }
+
+  .time-gate-badge {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    display: inline-block;
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-size: 0.86rem;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(15, 17, 26, 0.72);
+    border: 1px solid rgba(167, 139, 250, 0.45);
+    box-shadow: 0 0 18px rgba(167, 139, 250, 0.28);
+    backdrop-filter: blur(8px);
+    transition: opacity 0.9s ease;
+  }
+
+  .time-gate-badge-fade {
+    opacity: 0;
+  }
+}
+
+.time-gate.time-gate-open > *:not(.time-gate-badge) {
+  filter: none;
+  opacity: 1;
+  pointer-events: auto;
+  user-select: auto;
+}
+
+.time-gate.time-gate-open .time-gate-badge {
+  display: none;
+}

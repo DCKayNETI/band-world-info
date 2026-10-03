@@ -10,6 +10,9 @@ import os
 import re
 import sys
 import urllib.request
+from datetime import datetime, timedelta, timezone
+
+JST = timezone(timedelta(hours=9))
 
 DOCS_MAP = {
     # 核心载体
@@ -113,6 +116,20 @@ DEMUX_SECTION = "## 4. 主世界历史与日常演进纪要"
 SLICE_HEADER = re.compile(r"^#{2,4}\s*\*{0,2}【(?P<label>[^】]+)】\*{0,2}\s*$", re.M)
 DEMUX_ANCHOR = re.compile(r"^[*\s]*个人记忆分流指引\*{0,2}\s*[::]\s*$", re.M)
 LINK = re.compile(r"\[\[([^\]|]+?)(?:\|([^\]]+))?\]\]")
+SLICE_TIME = re.compile(r"(\d{4}-\d{2}-\d{2})(?:\s+(\d{2}:\d{2}))?")
+GATE_BADGE = "🔒 星轨观测锁定"
+
+
+def _slice_unlock(label: str):
+    """从切片标签解析 JST 解锁时刻；无时分按当日 00:00 JST。无法解析返回 None。"""
+    m = SLICE_TIME.search(label)
+    if not m:
+        return None
+    try:
+        dt = datetime.strptime(f"{m.group(1)} {m.group(2) or '00:00'}", "%Y-%m-%d %H:%M")
+    except ValueError:
+        return None
+    return dt.replace(tzinfo=JST)
 
 
 def _clean(text: str) -> str:
@@ -133,6 +150,47 @@ def _memory_file_index():
     return index
 
 
+def apply_time_gates(volume_path: str, warnings: list) -> int:
+    """为时间戳 > 当前 JST 的切片正文加毛玻璃门控包装（标头保持可见）。
+    客户端 JS 按 data-unlock 在解锁时刻平滑淡出；文件级幂等：每次同步基于
+    Drive 新内容重算。返回门控切片数。"""
+    with open(volume_path, "r", encoding="utf-8") as f:
+        text = f.read()
+    # 剥除上一轮残留的门控包装（包装行会残留在切片正文中，不清除会永久累积）
+    text = re.sub(r'<div class="time-gate"[^>]*>\n\n?', '', text)
+    text = re.sub(r'<div class="time-gate-badge">.*?</div>\n\n?', '', text)
+    text = re.sub(r'^</div>\n\n?', '', text, flags=re.M)
+    headers = list(SLICE_HEADER.finditer(text))
+    if not headers:
+        return 0
+    now = datetime.now(JST)
+    pieces = [text[: headers[0].start()]]
+    gated = 0
+    for i, h in enumerate(headers):
+        label = h.group("label").strip()
+        header_line = h.group(0)
+        body_start = h.end()
+        body_end = headers[i + 1].start() if i + 1 < len(headers) else len(text)
+        body = text[body_start:body_end].strip("\n")
+        unlock = _slice_unlock(label)
+        if unlock and unlock > now:
+            iso = unlock.strftime("%Y-%m-%dT%H:%M:00+09:00")
+            teaser = unlock.strftime("%m-%d %H:%M")
+            pieces.append(
+                header_line + "\n\n"
+                + '<div class="time-gate" data-unlock="' + iso + '">\n\n'
+                + '<div class="time-gate-badge">' + GATE_BADGE
+                + " · 将于 " + teaser + " JST 抵达成像点</div>\n\n"
+                + body + "\n\n</div>\n\n"
+            )
+            gated += 1
+        else:
+            pieces.append(text[h.start():body_end].rstrip("\n") + "\n\n")
+    with open(volume_path, "w", encoding="utf-8", newline="\n") as f:
+        f.write("".join(pieces))
+    return gated
+
+
 def demux_volume(volume_path: str, name_index: dict, warnings: list) -> int:
     with open(volume_path, "r", encoding="utf-8") as f:
         text = f.read()
@@ -142,6 +200,9 @@ def demux_volume(volume_path: str, name_index: dict, warnings: list) -> int:
     appended = 0
     for i, h in enumerate(headers):
         label = h.group("label").strip()
+        unlock = _slice_unlock(label)
+        if unlock and unlock > datetime.now(JST):
+            continue  # 时间锁：未来切片延迟分流，到解锁时刻由后续轮询自然入库
         body_start = h.end()
         body_end = headers[i + 1].start() if i + 1 < len(headers) else len(text)
         body = text[body_start:body_end]
@@ -195,11 +256,11 @@ def demux_chronicle_to_profiles() -> None:
 
 
 if __name__ == "__main__":
-    print(f"Starting sync of {len(all_docs)} documents from Google Drive...")
     volume_map = load_volume_index()
     all_docs = dict(DOCS_MAP)
     for month, doc_id in volume_map.items():
         all_docs[doc_id] = f"content/02-主世界编年史/主世界事件记录与编年史_{month}卷.md"
+    print(f"Starting sync of {len(all_docs)} documents from Google Drive...")
     failures = [(d, p) for d, p in all_docs.items() if not sync_doc(d, p)]
     if failures:
         print(f"\n{len(failures)}/{len(DOCS_MAP)} documents FAILED to sync:")
@@ -207,4 +268,12 @@ if __name__ == "__main__":
             print(f"  - {p}")
         sys.exit(1)
     print("Sync complete: all documents pulled successfully.")
+    # 时间锁：为未来切片加毛玻璃门控（延迟分流的前提）
+    chronicle_dir = os.path.join("content", "02-主世界编年史")
+    gated_total = 0
+    for fn in sorted(os.listdir(chronicle_dir)):
+        if fn.endswith(".md") and "卷" in fn:
+            gated_total += apply_time_gates(os.path.join(chronicle_dir, fn), [])
+    print(f"[time-gate] 门控未来切片 {gated_total} 个")
+    # demux：只分流已解锁切片（未来切片延迟入库）
     demux_chronicle_to_profiles()
