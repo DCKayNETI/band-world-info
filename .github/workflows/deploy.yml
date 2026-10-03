@@ -36,7 +36,7 @@ jobs:
           printf '{"sha":"%s","builtAt":"%s"}\n' "$SHORT_SHA" "$(date -u +%FT%TZ)" > public/static/version.json
           find public -name '*.html' -exec sed -i "s/BUILD_SHA_PLACEHOLDER/$SHORT_SHA/g" {} +
           echo "build-sha=$SHORT_SHA" >> "$GITHUB_OUTPUT"
-      - name: Sanitize search index (time-gating: strip unlocked-pending slice text)
+      - name: Sanitize search index for time-gating (strip pending slice text)
         run: |
           python3 - << 'PYEOF'
           import json, os
