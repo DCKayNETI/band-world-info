@@ -14,24 +14,13 @@ import urllib.request
 DOCS_MAP = {
     # 核心载体
     "1TpwLPKhmtwAGInf2WfUYyFoQsL3QO4gmVIO4zFOfGYo": "content/01-乐团世界书/乐团世界书_World_Info.md",
-    "1uMkTfLos3ia8QAOoKPY5ixFA7eSs87LmBhpR0idFKbA": "content/02-主世界编年史/主世界事件记录与编年史.md",
+    "1uMkTfLos3ia8QAOoKPY5ixFA7eSs87LmBhpR0idFKbA": "content/02-主世界编年史/主世界事件记录与编年史_2026年10月卷.md",
     "1k3RmSwz9G8zCDk97fut72KAfh3odRNt3SQ9fxlQglik": "content/03-乐团共享日记/乐团共享日记本.md",
     "1QixMpZwdImV1a65hx8jr5j_mWWPAIOeJv9FSxlp4TgY": "content/05-创作者随想/创作者世界观随想笔记.md",
 
     "1bMIVQ31xip0fegW6EsIheaRxZ29qjmDSJyofBU6KKw8": "content/06-全景沙盘/未来演进计划与版本发布日志.md",
 
-    # 11 位成员专属记忆档案
-    "1C3NoJ7mk8EjmnPgTEEx48eEbdFpgJIMSbTq0NyXMXTc": "content/04-成员记忆档案/丰川祥子_长期记忆档案.md",
-    "1BeXSsxyyReIZXUq_U-VFsXv1BJSVOa5MNtwkMQlS2eM": "content/04-成员记忆档案/千早爱音_长期记忆档案.md",
-    "1mcI0BdfWRnL3lyulIpjGIDYem9MdJVe3KvPVjjl7rEg": "content/04-成员记忆档案/长崎素世_长期记忆档案.md",
-    "1qe305M7Dmzv9hauUVVHsde6_3zWWkJCQB4xFKgbHebo": "content/04-成员记忆档案/三角初华_长期记忆档案.md",
-    "1V7fiFU5i_z4hO0wcIPVh_83X7p23QR5ofzP-8q4cUz0": "content/04-成员记忆档案/高松灯_长期记忆档案.md",
-    "10M0YsCoHWiwQkhBjrFF4MOgf2s6Fxvl6uUhd5ZEismM": "content/04-成员记忆档案/椎名立希_长期记忆档案.md",
-    "1pIoUm15zDfjD1PT0Z7Xzfn9ZouIxmcHMXU5CVzo8JKM": "content/04-成员记忆档案/要乐奈_长期记忆档案.md",
-    "11Eu0oCLePSfedqEVxZU7sAJtOPbdKdBuxlBTIGrcXu4": "content/04-成员记忆档案/若叶睦_长期记忆档案.md",
-    "1UQwl7HJgWlITy5QPMFa9J9NX_jJ13xupGXSRYxUB52I": "content/04-成员记忆档案/八幡海铃_长期记忆档案.md",
-    "1WZrQ8_oqSqTCgSAQEmuxSaKlZpVHcM_noT_UIxS-f-A": "content/04-成员记忆档案/祐天寺若麦_长期记忆档案.md",
-    "1iFecEoj-SODK5B8UmS_aDEzi0SMEfxg8DlqHjrcaWn8": "content/04-成员记忆档案/纯田真奈_长期记忆档案.md",
+    # 11 份记忆档案已移出映射：权威源为仓库（demux 独占写入），云端 Docs 封存为历史快照
 }
 
 # Google Docs 的 Markdown 导出会把字面 [[...]] 逐括号转义成 \[\[...\]\]，
@@ -86,6 +75,98 @@ def sync_doc(doc_id: str, target_path: str) -> bool:
         return False
 
 
+
+# ─────────────────────────────────────────────────────────────
+# 编年史自动分流（demux）：从编年史卷提取「个人记忆分流指引」，
+# 将主观切片增量追加到对应成员记忆档案的「4. 主世界历史与日常演进纪要」。
+# 追加式账本：已分流切片不重复处理，不支持追溯修改（会告警）。
+# ─────────────────────────────────────────────────────────────
+MEMORIES_DIR = os.path.join("content", "04-成员记忆档案")
+DEMUX_SECTION = "## 4. 主世界历史与日常演进纪要"
+SLICE_HEADER = re.compile(r"^#{2,4}\s*\*{0,2}【(?P<label>[^】]+)】\*{0,2}\s*$", re.M)
+DEMUX_ANCHOR = re.compile(r"^[*\s]*个人记忆分流指引\*{0,2}\s*[::]\s*$", re.M)
+LINK = re.compile(r"\[\[([^\]|]+?)(?:\|([^\]]+))?\]\]")
+
+
+def _clean(text: str) -> str:
+    text = text.replace("\\-", "-").replace("\\!", "!").replace("\\.", ".").replace("\\,", ",")
+    text = text.replace("**", "").replace("`", "").strip()
+    return re.sub(r"\s+", " ", text)
+
+
+def _memory_file_index():
+    """成员名 → 档案文件路径 的映射（同时登记全名与短名）。"""
+    index = {}
+    if os.path.isdir(MEMORIES_DIR):
+        for fn in os.listdir(MEMORIES_DIR):
+            if fn.endswith(".md"):
+                stem = fn[:-3]
+                index[stem] = os.path.join(MEMORIES_DIR, fn)
+                index[stem.split("_")[0]] = os.path.join(MEMORIES_DIR, fn)
+    return index
+
+
+def demux_volume(volume_path: str, name_index: dict, warnings: list) -> int:
+    with open(volume_path, "r", encoding="utf-8") as f:
+        text = f.read()
+    headers = list(SLICE_HEADER.finditer(text))
+    if not headers:
+        return 0
+    appended = 0
+    for i, h in enumerate(headers):
+        label = h.group("label").strip()
+        body_start = h.end()
+        body_end = headers[i + 1].start() if i + 1 < len(headers) else len(text)
+        body = text[body_start:body_end]
+        anchor = DEMUX_ANCHOR.search(body)
+        if not anchor:
+            continue
+        tail = body[anchor.end():]
+        entries = []
+        for raw_line in tail.splitlines():
+            line = _clean(raw_line)
+            if not line:
+                continue
+            links = LINK.findall(line)
+            if not links:
+                break  # 分流块结束（遇到第一个非条目行）
+            desc = LINK.sub("", line)
+            desc = re.sub(r"^[\-\s:*&]+", "", desc).strip(" :：-")
+            for target, alias in links:
+                entries.append((target.strip(), alias, desc))
+        if not entries:
+            warnings.append(f"[demux] 切片「{label[:40]}」的分流块无法解析，已原样保留于卷内")
+            continue
+        for target, alias, desc in entries:
+            path = name_index.get(target) or name_index.get((alias or "").strip())
+            if not path:
+                warnings.append(f"[demux] 未知目标「{target}」，条目保留于卷内：{desc[:40]}")
+                continue
+            with open(path, "r", encoding="utf-8") as f:
+                mem_text = f.read()
+            if f"【{label[:18]}" in mem_text:
+                continue  # 双层去重②：目标档案已含该切片标记
+            with open(path, "a", encoding="utf-8", newline="\n") as f:
+                if DEMUX_SECTION not in mem_text:
+                    f.write(f"\n\n# **{DEMUX_SECTION}**\n\n")
+                f.write(f"- **【{label}】** {desc}\n")
+            appended += 1
+    return appended
+
+
+def demux_chronicle_to_profiles() -> None:
+    name_index = _memory_file_index()
+    warnings = []
+    total = 0
+    chronicle_dir = os.path.join("content", "02-主世界编年史")
+    for fn in sorted(os.listdir(chronicle_dir)):
+        if fn.endswith(".md") and "卷" in fn:
+            total += demux_volume(os.path.join(chronicle_dir, fn), name_index, warnings)
+    print(f"[demux] 分流完成：新增记忆条目 {total} 条")
+    for w in warnings:
+        print(w, file=sys.stderr)
+
+
 if __name__ == "__main__":
     print(f"Starting sync of {len(DOCS_MAP)} documents from Google Drive...")
     failures = [(d, p) for d, p in DOCS_MAP.items() if not sync_doc(d, p)]
@@ -95,3 +176,4 @@ if __name__ == "__main__":
             print(f"  - {p}")
         sys.exit(1)
     print("Sync complete: all documents pulled successfully.")
+    demux_chronicle_to_profiles()
