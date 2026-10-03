@@ -398,7 +398,8 @@
       .interaction-hints { display: none !important; }
       .roster-container { bottom: 12px !important; gap: 6px !important; }
       .roster-avatar { width: 28px !important; height: 28px !important; }
-      .sandbox-diary-wrap { bottom: 12px !important; left: 12px !important; }
+      .sandbox-diary-wrap { bottom: 12px !important; left: 12px !important; }      .off-map-dock { top: 80px; right: 12px; }
+
     }
       @media (max-width: 768px) {
       .top-bar {
@@ -461,7 +462,124 @@
       .sandbox-diary-wrap a { padding: 6px 12px; font-size: 11px; }
       .brand-badge-mygo, .brand-badge-mujica { display: none !important; }
       .brand-subtitle { display: none !important; }
+      .off-map-dock { top: 150px; right: 12px; }
+      .off-map-drawer { width: 78vw; }
 
+    }
+    
+    /* ── 都外·远征微缩雷达坞（v2.5.0，轻量：纯 CSS 过渡，事件驱动）── */
+    .off-map-dock {
+      position: absolute;
+      top: 72px; right: 16px;
+      z-index: 12;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+    .off-map-dock.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .dock-badge {
+      background: rgba(22, 28, 42, 0.92);
+      border: 1px solid rgba(162, 155, 254, 0.4);
+      color: #a29bfe;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .dock-badge:hover {
+      transform: scale(1.05);
+      border-color: rgba(162, 155, 254, 0.8);
+    }
+    .dock-pulse {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #a29bfe;
+      box-shadow: 0 0 8px #a29bfe;
+      animation: dockPulse 2s ease-in-out infinite;
+    }
+    @keyframes dockPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    .dock-count {
+      background: rgba(162, 155, 254, 0.2);
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-size: 10px;
+    }
+    .off-map-drawer {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 340px;
+      max-width: 90vw;
+      background: rgba(18, 22, 34, 0.96);
+      border-left: 1px solid rgba(255,255,255,0.08);
+      z-index: 100;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -10px 0 40px rgba(0,0,0,0.6);
+    }
+    .off-map-drawer.open {
+      transform: translateX(0);
+    }
+    .off-map-drawer-header {
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .off-map-drawer-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #a29bfe;
+    }
+    .drawer-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+    .off-map-drawer-body {
+      padding: 16px 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .off-map-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(162, 155, 254, 0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .off-map-card-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .off-map-card-char { color: #fff; }
+    .off-map-card-dest { color: #a29bfe; font-size: 11px; }
+    .off-map-card-action {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
     }
     </style>
 </head>
@@ -742,7 +860,10 @@
       { id: 'lm_hanasakigawa', name: '花咲川女子学园', x: 570, y: 780, icon: '🌸', color: '#ff8cb2', desc: '传统历史名校；椎名立希与要乐奈就读之地。校舍坐落于陡峭斜坡之上，校门前盛开樱花，见证了赶往RiNG打工与随性翘课的日常。' },
       { id: 'lm_tsukinomori', name: '月之森女子学园', x: 910, y: 810, icon: '🏛️', color: '#a78bfa', desc: '私立名门大小姐学园；长崎素世与若叶睦就读之地。校风典雅克制，林荫幽深静谧，亦是旧 CRYCHIC 最初的缘起之所与沉重回忆断点。' },
       { id: 'lm_studio', name: '喵梦短视频工作室', x: 1260, y: 250, icon: '📹', color: '#e2789f', desc: '祐天寺喵梦正在剪辑视频的工作间' },
-      { id: 'lm_station_stage', name: '电视台艺能演播大楼', x: 1260, y: 770, icon: '🎤', color: '#ff7675', desc: 'sumimi 偶像休息室与通告摄影棚' }
+      { id: 'lm_station_stage', name: '电视台艺能演播大楼', x: 1260, y: 770, icon: '🎤', color: '#ff7675', desc: 'sumimi 偶像休息室与通告摄影棚' },
+      { id: 'lm_stellar_hall', name: '涩谷商业展演殿堂 Stellar Hall', x: 300, y: 620, icon: '🏛️', color: '#d4af37', desc: 'Ave Mujica 千人级假面商业大舞台与演出据点' },
+      { id: 'lm_studio_alta', name: '新宿都市演播中心 Studio Alta', x: 1100, y: 120, icon: '📺', color: '#ff7675', desc: 'sumimi 主流偶像打歌演播厅与商业路演据点' },
+      { id: 'lm_rehearsal_generic', name: '都内弹性通用演出与排练空间', x: 500, y: 590, icon: '🎙️', color: '#a29bfe', desc: '都内地下小型Livehouse与排练室通用兜底锚点' },
     ];
 
     // --- 10 Extended Unassigned Locations (📌 其他 / 扩展地标库) ---
@@ -2476,12 +2597,93 @@
     // Init
     renderRoster();
     SAKIKO_AUDIO_SYSTEM.init();
-    SAKIKO_AUDIO_SYSTEM.init();
-    SAKIKO_AUDIO_SYSTEM.init();
     render();
+
+    // --- Off-Map Satellite Dock Engine (v2.5.0) ---
+    // 事件驱动：初始 + 每 30s 轮询一次（不进渲染主循环），
+    // 仅在都外名单签名变化时重建 DOM。
+    function updateOffMapDock() {
+      const dock = document.getElementById('offMapDock');
+      const countEl = document.getElementById('offMapCount');
+      const listEl = document.getElementById('offMapList');
+      if (!dock || !countEl || !listEl) return;
+
+      const offMapChars = CHARACTERS.filter(c => {
+        const loc = c.currentLocation || '';
+        const act = c.currentAction || '';
+        return /都外|关西|大阪|静冈|镰仓|巡回|外地|新大阪/.test(loc) || /都外|关西|大阪|静冈|镰仓|巡回|外地|新大阪/.test(act);
+      });
+
+      const signature = offMapChars.map(c => c.id + ':' + c.currentLocation).join('|');
+      if (signature === updateOffMapDock._lastSig) return;
+      updateOffMapDock._lastSig = signature;
+
+      if (offMapChars.length > 0) {
+        dock.classList.add('visible');
+        countEl.textContent = offMapChars.length;
+        listEl.innerHTML = offMapChars.map(c => `
+          <div class="off-map-card">
+            <div class="off-map-card-header">
+              <span class="off-map-card-char">${c.name} (${c.band})</span>
+              <span class="off-map-card-dest">${c.currentLocation}</span>
+            </div>
+            <div class="off-map-card-action">${c.currentAction}</div>
+          </div>
+        `).join('');
+      } else {
+        dock.classList.remove('visible');
+        countEl.textContent = '0';
+        listEl.innerHTML = '<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px;">当前全员均在东京主城区活动</div>';
+      }
+    }
+
+    const bindOffMapDock = () => {
+      const offMapBadge = document.getElementById('offMapBadge');
+      const offMapDrawer = document.getElementById('offMapDrawer');
+      const offMapDrawerClose = document.getElementById('offMapDrawerClose');
+      if (!offMapBadge || !offMapDrawer) return;
+      offMapBadge.addEventListener('click', () => {
+        offMapDrawer.classList.toggle('open');
+      });
+      if (offMapDrawerClose) {
+        offMapDrawerClose.addEventListener('click', () => {
+          offMapDrawer.classList.remove('open');
+        });
+      }
+    };
+    // 雷达坞 HTML 位于本脚本之后，需等 DOM 解析完成再绑定
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bindOffMapDock);
+    } else {
+      bindOffMapDock();
+    }
+    setTimeout(updateOffMapDock, 500);
+    setInterval(updateOffMapDock, 30000);
+
   </script>
 
   <!-- Floating Diary Navigation Button -->
+  <!-- Off-Map Satellite Dock (v2.5.0) -->
+  <div id="offMapDock" class="off-map-dock">
+    <div class="dock-badge" id="offMapBadge">
+      <span class="dock-pulse"></span>
+      <span class="dock-icon">✈️</span>
+      <span class="dock-label">都外·远征中</span>
+      <span class="dock-count" id="offMapCount">0</span>
+    </div>
+  </div>
+
+  <!-- Off-Map Drawer (v2.5.0) -->
+  <div id="offMapDrawer" class="off-map-drawer">
+    <div class="off-map-drawer-header">
+      <div class="off-map-drawer-title">✈️ 都外漫游与远征动态</div>
+      <button class="drawer-close" id="offMapDrawerClose">&times;</button>
+    </div>
+    <div class="off-map-drawer-body" id="offMapList">
+      <div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px;">当前全员均在东京主城区活动</div>
+    </div>
+  </div>
+
   <div class="sandbox-diary-wrap" style="position:fixed; bottom:24px; left:24px; z-index:9999;">
     <a id="sandbox-diary-btn" href="../03-乐团共享日记/乐团共享日记本" target="_top"
        style="display:inline-flex; align-items:center; gap:8px; padding:9px 18px; border-radius:10px; font-size:13px; font-weight:600;
